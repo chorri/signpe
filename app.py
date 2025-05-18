@@ -39,7 +39,7 @@ except Exception as e:
 
 db = firestore.client()
 
-app = Flask(__name__, static_folder='static/dist', template_folder='static/dist')
+app = Flask(__name__)
 CORS(app, origins=["http://localhost:5173"])
 
 # Load model and labels
@@ -56,10 +56,10 @@ hands = mp_hands.Hands()
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_react(path):
-    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-        return send_from_directory(app.static_folder, path)
+    if path != "" and os.path.exists(os.path.join("static/dist", path)):
+        return send_from_directory("static/dist", path)
     else:
-        return send_from_directory(app.static_folder, 'index.html')
+        return send_from_directory("static/dist", "index.html")
 
 @app.route('/predict', methods=['POST'])
 def predict():
