@@ -12,3 +12,5 @@ venv/
 # macOS / Windows clutter
 .DS_Store
 Thumbs.db
+
+static/dist

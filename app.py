@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -12,6 +12,7 @@ from firebase_admin import credentials, firestore
 import os
 from dotenv import load_dotenv
 from flask_cors import CORS
+
 
 load_dotenv()
 
@@ -38,8 +39,8 @@ except Exception as e:
 
 db = firestore.client()
 
-app = Flask(__name__)
-CORS(app, origins=["http://localhost:10000"])
+app = Flask(__name__, static_folder='static/dist', template_folder='static/dist')
+CORS(app, origins=["http://localhost:5173"])
 
 # Load model and labels
 model = tf.keras.models.load_model('model_color.keras')
@@ -52,9 +53,13 @@ mp_hands = mp.solutions.hands
 pose = mp_pose.Pose()
 hands = mp_hands.Hands()
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_react(path):
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
