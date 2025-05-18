@@ -130,43 +130,6 @@ def predict():
         'confidence': confidence
     })
 
-# Create
-@app.route('/add_prediction', methods=['POST'])
-def add_prediction():
-    data = request.json
-    doc_ref = db.collection('predictions').add(data)
-    return jsonify({'id': doc_ref[1].id, 'message': 'Prediction added'}), 201
-
-# Read All
-@app.route('/get_predictions', methods=['GET'])
-def get_predictions():
-    docs = db.collection('predictions').stream()
-    result = [{doc.id: doc.to_dict()} for doc in docs]
-    return jsonify(result)
-
-# Read One
-@app.route('/get_prediction/<id>', methods=['GET'])
-def get_prediction(id):
-    doc = db.collection('predictions').document(id).get()
-    if doc.exists:
-        return jsonify(doc.to_dict())
-    else:
-        return jsonify({'error': 'Not found'}), 404
-
-# Update
-@app.route('/update_prediction/<id>', methods=['PUT'])
-def update_prediction(id):
-    data = request.json
-    db.collection('predictions').document(id).update(data)
-    return jsonify({'message': 'Prediction updated'})
-
-# Delete
-@app.route('/delete_prediction/<id>', methods=['DELETE'])
-def delete_prediction(id):
-    db.collection('predictions').document(id).delete()
-    return jsonify({'message': 'Prediction deleted'})
-
-
 @app.route('/get_users', methods=['GET'])
 def get_users():
     try:
