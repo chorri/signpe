@@ -1,0 +1,7 @@
+*.js
+*.test.js
+vite.config.ts
+**/*.stories.tsx
+**/*.scss
+dist/
+*.d.ts
