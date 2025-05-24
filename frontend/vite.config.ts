@@ -10,4 +10,10 @@ export default defineConfig({
     emptyOutDir: true,
   },
   base: "/static/dist/",
+  server: {
+    proxy: {
+      '/predict': 'http://localhost:10000',
+      '/get_users': 'http://localhost:10000'
+    }
+  }
 });

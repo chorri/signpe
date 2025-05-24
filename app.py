@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -12,6 +12,7 @@ from firebase_admin import credentials, firestore
 import os
 from dotenv import load_dotenv
 from flask_cors import CORS
+
 
 load_dotenv()
 
@@ -39,7 +40,7 @@ except Exception as e:
 db = firestore.client()
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:10000"])
+CORS(app, origins=["http://localhost:5173"])
 
 # Load model and labels
 model = tf.keras.models.load_model('model_color.keras')
@@ -52,9 +53,13 @@ mp_hands = mp.solutions.hands
 pose = mp_pose.Pose()
 hands = mp_hands.Hands()
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_react(path):
+    if path != "" and os.path.exists(os.path.join("static/dist", path)):
+        return send_from_directory("static/dist", path)
+    else:
+        return send_from_directory("static/dist", "index.html")
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -124,43 +129,6 @@ def predict():
         'label': predicted_label,
         'confidence': confidence
     })
-
-# Create
-@app.route('/add_prediction', methods=['POST'])
-def add_prediction():
-    data = request.json
-    doc_ref = db.collection('predictions').add(data)
-    return jsonify({'id': doc_ref[1].id, 'message': 'Prediction added'}), 201
-
-# Read All
-@app.route('/get_predictions', methods=['GET'])
-def get_predictions():
-    docs = db.collection('predictions').stream()
-    result = [{doc.id: doc.to_dict()} for doc in docs]
-    return jsonify(result)
-
-# Read One
-@app.route('/get_prediction/<id>', methods=['GET'])
-def get_prediction(id):
-    doc = db.collection('predictions').document(id).get()
-    if doc.exists:
-        return jsonify(doc.to_dict())
-    else:
-        return jsonify({'error': 'Not found'}), 404
-
-# Update
-@app.route('/update_prediction/<id>', methods=['PUT'])
-def update_prediction(id):
-    data = request.json
-    db.collection('predictions').document(id).update(data)
-    return jsonify({'message': 'Prediction updated'})
-
-# Delete
-@app.route('/delete_prediction/<id>', methods=['DELETE'])
-def delete_prediction(id):
-    db.collection('predictions').document(id).delete()
-    return jsonify({'message': 'Prediction deleted'})
-
 
 @app.route('/get_users', methods=['GET'])
 def get_users():
