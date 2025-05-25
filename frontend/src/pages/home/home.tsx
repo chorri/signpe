@@ -4,6 +4,7 @@ import {
   Check,
   Clock,
   Facebook,
+  HandHeart,
   Instagram,
   Mail,
   MapPin,
@@ -32,9 +33,9 @@ export const Home = () => {
       <header className="px-4 lg:px-6 h-16 w-full flex justify-between items-center border-b border-gray-800 bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-gray-900/60 sticky top-0 z-50">
         <Link className="flex items-center justify-center" to="/">
           <div className="bg-violet-600 text-white p-2 rounded-lg mr-2">
-            <BookOpen className="h-6 w-6" />
+            <HandHeart className="h-6 w-6" />
           </div>
-          <span className="font-bold text-xl text-white">SignPe</span>
+          <span className="font-bold text-xl text-white">SignPE</span>
         </Link>
         <nav className="md:flex gap-6">
           <a
@@ -77,7 +78,7 @@ export const Home = () => {
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white">
-                    Master Sign Language with <span className="text-violet-400">SignPe</span>
+                    Master Sign Language with <span className="text-violet-400">SignPE</span>
                   </h1>
                   <p className="max-w-[600px] text-gray-300 md:text-xl">
                     Learn American Sign Language (ASL) through interactive lessons, video tutorials,
@@ -128,7 +129,7 @@ export const Home = () => {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">
-                  Why Choose SignPe?
+                  Why Choose SignPE?
                 </h2>
                 <p className="max-w-[900px] text-gray-300 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Our comprehensive platform makes learning sign language engaging, effective, and
@@ -209,7 +210,7 @@ export const Home = () => {
                 </h2>
                 <p className="max-w-[900px] text-gray-300 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Join thousands of satisfied learners who have transformed their communication
-                  skills with SignPe.
+                  skills with SignPE.
                 </p>
               </div>
             </div>
@@ -226,7 +227,7 @@ export const Home = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300">
-                    "SignPe made learning ASL so much easier than I expected. The interactive
+                    "SignPE made learning ASL so much easier than I expected. The interactive
                     lessons and community support helped me!"
                   </p>
                 </CardContent>
@@ -254,7 +255,7 @@ export const Home = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300">
-                    "As a parent of a deaf child, SignPe helped our whole family learn to
+                    "As a parent of a deaf child, SignPE helped our whole family learn to
                     communicate better. The courses are well-structured and engaging."
                   </p>
                 </CardContent>
@@ -513,9 +514,9 @@ export const Home = () => {
             <div className="space-y-4">
               <div className="flex items-center">
                 <div className="bg-violet-600 text-white p-2 rounded-lg mr-2">
-                  <BookOpen className="h-6 w-6" />
+                  <HandHeart className="h-6 w-6" />
                 </div>
-                <span className="font-bold text-xl text-white">SignPe</span>
+                <span className="font-bold text-xl text-white">SignPE</span>
               </div>
               <p className="text-sm text-gray-400">
                 Making sign language accessible to everyone through innovative e-learning
@@ -606,7 +607,7 @@ export const Home = () => {
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center">
             <p className="text-xs text-gray-400">
-              © {new Date().getFullYear()} SignPe. All rights reserved.
+              © {new Date().getFullYear()} SignPE. All rights reserved.
             </p>
             <nav className="flex gap-4 mt-4 sm:mt-0">
               <Link to="#" className="text-xs text-gray-400 hover:text-violet-400">
