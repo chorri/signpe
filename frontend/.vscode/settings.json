@@ -12,7 +12,7 @@
   "files.exclude": {
     ".editorconfig": true,
     ".eslintignore": true,
-    ".eslintrc.js": false,
+    ".eslintrc.js": true,
     ".lintstagedrc.js": true,
     ".nvmrc": true,
     ".prettierignore": true,
