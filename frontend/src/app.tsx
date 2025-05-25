@@ -1,14 +1,16 @@
-import { useState } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-import { Button } from 'components'
+import { Dashboard, Home, Login } from 'pages'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <Button onClick={() => setCount(count => count + 1)}>count is {count}</Button>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
   )
 }
 
