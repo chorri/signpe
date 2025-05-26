@@ -6,6 +6,7 @@ import {
   Facebook,
   HandHeart,
   Instagram,
+  LogIn,
   Mail,
   MapPin,
   Phone,
@@ -37,7 +38,7 @@ export const Home = () => {
           </div>
           <span className="font-bold text-xl text-white">SignPE</span>
         </Link>
-        <nav className="md:flex gap-6">
+        <nav className="hidden md:flex gap-6">
           <a
             className="font-semibold text-gray-300 hover:text-violet-400 transition-colors"
             href="#features"
@@ -65,7 +66,7 @@ export const Home = () => {
         </nav>
         <Link to="/login" className="ml-4">
           <Button size="sm" className="bg-violet-600 hover:bg-violet-700">
-            Inicia sesión
+            Inicia sesión <LogIn />
           </Button>
         </Link>
       </header>
