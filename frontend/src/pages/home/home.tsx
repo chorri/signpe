@@ -42,30 +42,30 @@ export const Home = () => {
             className="font-semibold text-gray-300 hover:text-violet-400 transition-colors"
             href="#features"
           >
-            Features
+            Características
           </a>
           <a
             className="font-semibold text-gray-300 hover:text-violet-400 transition-colors"
             href="#testimonials"
           >
-            Testimonials
+            Testimonios
           </a>
           <a
             className="font-semibold text-gray-300 hover:text-violet-400 transition-colors"
             href="#pricing"
           >
-            Pricing
+            Planes
           </a>
           <a
             className="font-semibold text-gray-300 hover:text-violet-400 transition-colors"
             href="#contact"
           >
-            Contact
+            Contacto
           </a>
         </nav>
         <Link to="/login" className="ml-4">
           <Button size="sm" className="bg-violet-600 hover:bg-violet-700">
-            Sign Up
+            Regístrate
           </Button>
         </Link>
       </header>
@@ -78,34 +78,34 @@ export const Home = () => {
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white">
-                    Master Sign Language with <span className="text-violet-400">SignPE</span>
+                    Domina el lenguaje de señas con <span className="text-violet-400">SignPE</span>
                   </h1>
                   <p className="max-w-[600px] text-gray-300 md:text-xl">
-                    Learn American Sign Language (ASL) through interactive lessons, video tutorials,
-                    and practice sessions. Connect with the deaf community and expand your
-                    communication skills.
+                    Aprende Lenguaje de Señas Peruano (LSP) a través de lecciones interactivas,
+                    tutoriales en video y sesiones de práctica. Conéctate con la comunidad sorda y
+                    amplía tus habilidades de comunicación.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button size="lg" className="bg-violet-600 hover:bg-violet-700">
-                    Start Learning Free
+                    ¡Empieza gratis!
                   </Button>
                   <Button
                     variant="outline"
                     size="lg"
                     className="bg-transparent text-violet-400 border-violet-400 hover:bg-violet-900/10  hover:text-violet-500 hover:border-violet-500"
                   >
-                    Watch Demo
+                    Mira la demo
                   </Button>
                 </div>
                 <div className="flex items-center gap-4 text-sm text-gray-400">
                   <div className="flex items-center gap-1">
                     <Users className="h-4 w-4" />
-                    <span>50,000+ learners</span>
+                    <span>50,000+ estudiantes</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span>4.9/5 rating</span>
+                    <span>Valoración de 4.9/5</span>
                   </div>
                 </div>
               </div>
@@ -129,11 +129,11 @@ export const Home = () => {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">
-                  Why Choose SignPE?
+                  ¿Por qué elegir SignPE?
                 </h2>
                 <p className="max-w-[900px] text-gray-300 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our comprehensive platform makes learning sign language engaging, effective, and
-                  accessible for everyone.
+                  Con nuestra plataforma, aprender lengua de señas es fácil, dinámico y accesible
+                  para todos.
                 </p>
               </div>
             </div>
@@ -145,9 +145,9 @@ export const Home = () => {
                       <BookOpen className="h-6 w-6 text-violet-400" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">Interactive Lessons</h3>
+                      <h3 className="text-xl font-bold text-white">Lecciones Interactivas</h3>
                       <p className="text-gray-300">
-                        Step-by-step video lessons with real-time feedback and progress tracking.
+                        Lecciones en video con retroalimentación en tiempo real.
                       </p>
                     </div>
                   </div>
@@ -156,9 +156,9 @@ export const Home = () => {
                       <Users className="h-6 w-6 text-rose-400" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">Community Practice</h3>
+                      <h3 className="text-xl font-bold text-white">Forma Parte de la Comunidad</h3>
                       <p className="text-gray-300">
-                        Connect with other learners and native signers for practice sessions.
+                        Conectate con las personas que comparten tu interés en LSP.
                       </p>
                     </div>
                   </div>
@@ -167,9 +167,9 @@ export const Home = () => {
                       <Award className="h-6 w-6 text-violet-400" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">Certified Courses</h3>
+                      <h3 className="text-xl font-bold text-white">Sigue Tu Progreso</h3>
                       <p className="text-gray-300">
-                        Earn certificates upon completion of structured learning paths.
+                        Visualiza tu progreso en cada seña con un seguimiento visual e interactivo.
                       </p>
                     </div>
                   </div>
@@ -178,9 +178,10 @@ export const Home = () => {
                       <Clock className="h-6 w-6 text-rose-400" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">Learn at Your Pace</h3>
+                      <h3 className="text-xl font-bold text-white">Aprende a tu Ritmo</h3>
                       <p className="text-gray-300">
-                        Flexible scheduling with offline access to downloaded content.
+                        Accede a todo el contenido desde tu computadora, sin horarios ni
+                        restricciones.
                       </p>
                     </div>
                   </div>
@@ -206,11 +207,11 @@ export const Home = () => {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">
-                  What Our Students Say
+                  Lo que Dicen Nuestros Estudiantes
                 </h2>
                 <p className="max-w-[900px] text-gray-300 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Join thousands of satisfied learners who have transformed their communication
-                  skills with SignPE.
+                  Únete a miles de estudiantes que han transformado sus habilidades de comunicación
+                  con SignPE.
                 </p>
               </div>
             </div>
@@ -227,8 +228,8 @@ export const Home = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300">
-                    "SignPE made learning ASL so much easier than I expected. The interactive
-                    lessons and community support helped me!"
+                    "SignPE hizo que aprender LSP fuera mucho más fácil de lo que esperaba. Las
+                    lecciones interactivas me ayudaron muchísimo."
                   </p>
                 </CardContent>
                 <CardFooter>
@@ -238,7 +239,7 @@ export const Home = () => {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-white">Sarah Martinez</p>
-                      <p className="text-xs text-gray-400">Teacher</p>
+                      <p className="text-xs text-gray-400">Profesora</p>
                     </div>
                   </div>
                 </CardFooter>
@@ -255,8 +256,8 @@ export const Home = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300">
-                    "As a parent of a deaf child, SignPE helped our whole family learn to
-                    communicate better. The courses are well-structured and engaging."
+                    "Como padre de un niño sordo, SignPE ayudó a toda nuestra familia a comunicarse
+                    mejor. Las lecciones están muy bien estructuradas."
                   </p>
                 </CardContent>
                 <CardFooter>
@@ -266,7 +267,7 @@ export const Home = () => {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-white">Michael Johnson</p>
-                      <p className="text-xs text-gray-400">Parent</p>
+                      <p className="text-xs text-gray-400">Padre</p>
                     </div>
                   </div>
                 </CardFooter>
@@ -283,8 +284,8 @@ export const Home = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300">
-                    "The video quality and instruction clarity are outstanding. I love how I can
-                    practice with the community and get real feedback."
+                    "La calidad de los videos es excelente. Me encanta poder recibir
+                    retroalimentación en tiempo real."
                   </p>
                 </CardContent>
                 <CardFooter>
@@ -294,7 +295,7 @@ export const Home = () => {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-white">Emily Chen</p>
-                      <p className="text-xs text-gray-400">Student</p>
+                      <p className="text-xs text-gray-400">Estudiante</p>
                     </div>
                   </div>
                 </CardFooter>
@@ -325,30 +326,28 @@ export const Home = () => {
               <Card className="relative bg-gray-800 border-violet-700">
                 <CardHeader>
                   <CardTitle className="text-white">Introductorio</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Perfect for getting started
-                  </CardDescription>
+                  <CardDescription className="text-gray-400">Perfecto para iniciar</CardDescription>
                   <div className="text-3xl font-bold text-white">
-                    $0<span className="text-sm font-normal text-gray-400">/month</span>
+                    $0<span className="text-sm font-normal text-gray-400">/mes</span>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">5 basic lessons</span>
+                      <span className="text-sm text-gray-300">5 lecciones básicas</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Basic alphabet course</span>
+                      <span className="text-sm text-gray-300">Curso básico del alfabeto</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Community access</span>
+                      <span className="text-sm text-gray-300">Seguimiento del progreso</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Progress tracking</span>
+                      <span className="text-sm text-gray-300">Disponibilidad 24/7</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -364,35 +363,35 @@ export const Home = () => {
                 <CardHeader>
                   <CardTitle className="text-white">Básico</CardTitle>
                   <CardDescription className="text-gray-400">
-                    For dedicated learners
+                    Para estudiantes dedicados
                   </CardDescription>
                   <div className="text-3xl font-bold text-white">
-                    $9<span className="text-sm font-normal text-gray-400">/month</span>
+                    $9<span className="text-sm font-normal text-gray-400">/mes</span>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">50+ lessons</span>
+                      <span className="text-sm text-gray-300">50+ lecciones</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Conversation practice</span>
+                      <span className="text-sm text-gray-300">Señas compuestas</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Offline downloads</span>
+                      <span className="text-sm text-gray-300">Descargas sin conexión</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Email support</span>
+                      <span className="text-sm text-gray-300">Soporte de correo electrónico</span>
                     </li>
                   </ul>
                 </CardContent>
                 <CardFooter>
                   <Button disabled className="w-full">
-                    Coming Soon
+                    Próximamente
                   </Button>
                 </CardFooter>
               </Card>
@@ -401,34 +400,36 @@ export const Home = () => {
               <Card className="relative opacity-60 bg-gray-800 border-gray-700">
                 <CardHeader>
                   <CardTitle className="text-white">Intermedio</CardTitle>
-                  <CardDescription className="text-gray-400">For serious students</CardDescription>
+                  <CardDescription className="text-gray-400">
+                    Para estudiantes comprometidos
+                  </CardDescription>
                   <div className="text-3xl font-bold text-white">
-                    $19<span className="text-sm font-normal text-gray-400">/month</span>
+                    $19<span className="text-sm font-normal text-gray-400">/mes</span>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">200+ lessons</span>
+                      <span className="text-sm text-gray-300">200+ lecciones</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">1-on-1 practice sessions</span>
+                      <span className="text-sm text-gray-300">Historial de lecciones</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Certificate courses</span>
+                      <span className="text-sm text-gray-300">Señas intermedias</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Priority support</span>
+                      <span className="text-sm text-gray-300">Soporte prioritario</span>
                     </li>
                   </ul>
                 </CardContent>
                 <CardFooter>
                   <Button disabled className="w-full">
-                    Coming Soon
+                    Próximamente
                   </Button>
                 </CardFooter>
               </Card>
@@ -437,7 +438,9 @@ export const Home = () => {
               <Card className="relative opacity-60 bg-gray-800 border-gray-700">
                 <CardHeader>
                   <CardTitle className="text-white">Avanzado</CardTitle>
-                  <CardDescription className="text-gray-400">For organizations</CardDescription>
+                  <CardDescription className="text-gray-400">
+                    Para profesionales del lenguaje de señas
+                  </CardDescription>
                   <div className="text-3xl font-bold text-white">
                     $49<span className="text-sm font-normal text-gray-400">/month</span>
                   </div>
@@ -446,25 +449,25 @@ export const Home = () => {
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Unlimited access</span>
+                      <span className="text-sm text-gray-300">Acceso ilimitado</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Team management</span>
+                      <span className="text-sm text-gray-300">Manejo de equipo</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Custom content</span>
+                      <span className="text-sm text-gray-300">Contenido personalizado</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-400" />
-                      <span className="text-sm text-gray-300">Dedicated support</span>
+                      <span className="text-sm text-gray-300">Soporte dedicado</span>
                     </li>
                   </ul>
                 </CardContent>
                 <CardFooter>
                   <Button disabled className="w-full">
-                    Coming Soon
+                    Próximamente
                   </Button>
                 </CardFooter>
               </Card>
@@ -478,11 +481,11 @@ export const Home = () => {
             <div className="flex flex-col items-center justify-center space-y-4 text-center gap-4">
               <div className="flex flex-col items-center space-y-2 gap-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">
-                  Ready to Start Your Sign Language Journey?
+                  ¿Listo Para Comenzar Tu Camino en el Lenguaje de Señas Peruano?
                 </h2>
                 <p className="max-w-[600px] text-violet-100 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Join thousands of learners who are already communicating with confidence. Start
-                  your free account today.
+                  Únete a miles de personas que ya se comunican con confianza. Crea tu cuenta
+                  gratuita hoy mismo.
                 </p>
               </div>
               <div className="flex flex-col gap-4 min-[400px]:flex-row">
@@ -490,17 +493,17 @@ export const Home = () => {
                   size="lg"
                   className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"
                 >
-                  Start Learning Free
+                  ¡Empieza gratis!
                 </Button>
                 <Button
                   size="lg"
                   className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"
                 >
-                  Watch Demo
+                  Mira la demo
                 </Button>
               </div>
               <p className="text-sm text-violet-100">
-                No credit card required • Cancel anytime • 30-day money-back guarantee
+                Sin tarjeta de crédito • Cancela cuando quieras • Garantía de reembolso por 30 días
               </p>
             </div>
           </div>
@@ -519,8 +522,8 @@ export const Home = () => {
                 <span className="font-bold text-xl text-white">SignPE</span>
               </div>
               <p className="text-sm text-gray-400">
-                Making sign language accessible to everyone through innovative e-learning
-                technology.
+                Hacemos que el lenguaje de señas sea accesible para todos a través de tecnología
+                educativa innovadora e inteligencia artificial.
               </p>
               <div className="flex space-x-4">
                 <Link to="#" className="text-gray-400 hover:text-violet-400">
@@ -542,47 +545,37 @@ export const Home = () => {
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link to="#" className="text-gray-400 hover:text-violet-400">
-                    Features
+                    Características
                   </Link>
                 </li>
                 <li>
                   <Link to="#" className="text-gray-400 hover:text-violet-400">
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link to="#" className="text-gray-400 hover:text-violet-400">
-                    Courses
-                  </Link>
-                </li>
-                <li>
-                  <Link to="#" className="text-gray-400 hover:text-violet-400">
-                    Mobile App
+                    Planes
                   </Link>
                 </li>
               </ul>
             </div>
             <div className="space-y-4">
-              <h4 className="font-semibold text-white">Support</h4>
+              <h4 className="font-semibold text-white">Soporte</h4>
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link to="#" className="text-gray-400 hover:text-violet-400">
-                    Help Center
+                    Centro de Ayuda
                   </Link>
                 </li>
                 <li>
                   <Link to="#" className="text-gray-400 hover:text-violet-400">
-                    Community
+                    Comunidad
                   </Link>
                 </li>
                 <li>
                   <Link to="#" className="text-gray-400 hover:text-violet-400">
-                    Contact Us
+                    Contáctanos
                   </Link>
                 </li>
                 <li>
                   <Link to="#" className="text-gray-400 hover:text-violet-400">
-                    Status
+                    Estado del Servicio
                   </Link>
                 </li>
               </ul>
@@ -596,11 +589,11 @@ export const Home = () => {
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
                   <Phone className="h-4 w-4" />
-                  <span>+1 (555) 123-4567</span>
+                  <span>+51 912 345 678</span>
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
                   <MapPin className="h-4 w-4" />
-                  <span>San Francisco, CA</span>
+                  <span>Lima, Perú</span>
                 </li>
               </ul>
             </div>
