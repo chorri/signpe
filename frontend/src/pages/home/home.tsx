@@ -65,7 +65,7 @@ export const Home = () => {
         </nav>
         <Link to="/login" className="ml-4">
           <Button size="sm" className="bg-violet-600 hover:bg-violet-700">
-            Regístrate
+            Inicia sesión
           </Button>
         </Link>
       </header>
@@ -87,16 +87,20 @@ export const Home = () => {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg" className="bg-violet-600 hover:bg-violet-700">
-                    ¡Empieza gratis!
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="bg-transparent text-violet-400 border-violet-400 hover:bg-violet-900/10  hover:text-violet-500 hover:border-violet-500"
-                  >
-                    Mira la demo
-                  </Button>
+                  <Link to="/sign-up">
+                    <Button size="lg" className="bg-violet-600 hover:bg-violet-700">
+                      ¡Empieza ahora!
+                    </Button>
+                  </Link>
+                  <Link to="/login">
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="bg-transparent text-violet-400 border-violet-400 hover:bg-violet-900/10  hover:text-violet-500 hover:border-violet-500"
+                    >
+                      Ya tengo cuenta
+                    </Button>
+                  </Link>
                 </div>
                 <div className="flex items-center gap-4 text-sm text-gray-400">
                   <div className="flex items-center gap-1">
@@ -228,8 +232,8 @@ export const Home = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300">
-                    "SignPE hizo que aprender LSP fuera mucho más fácil de lo que esperaba. Las
-                    lecciones interactivas me ayudaron muchísimo."
+                    "SignPE hizo que aprender LSP fuera más fácil de lo que esperaba. Las lecciones
+                    interactivas me ayudaron muchísimo."
                   </p>
                 </CardContent>
                 <CardFooter>
@@ -285,7 +289,7 @@ export const Home = () => {
                 <CardContent>
                   <p className="text-gray-300">
                     "La calidad de los videos es excelente. Me encanta poder recibir
-                    retroalimentación en tiempo real."
+                    retroalimentación personalizada en tiempo real."
                   </p>
                 </CardContent>
                 <CardFooter>
@@ -313,11 +317,11 @@ export const Home = () => {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">
-                  Choose Your Learning Path
+                  Elige tu forma de aprender
                 </h2>
                 <p className="max-w-[900px] text-gray-300 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Start with our free plan and upgrade as you progress in your sign language
-                  journey.
+                  Comienza con nuestro plan gratuito y mejora a medida que avanzas en tu aprendizaje
+                  de la lengua de señas.
                 </p>
               </div>
             </div>
@@ -489,18 +493,22 @@ export const Home = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-4 min-[400px]:flex-row">
-                <Button
-                  size="lg"
-                  className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"
-                >
-                  ¡Empieza gratis!
-                </Button>
-                <Button
-                  size="lg"
-                  className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"
-                >
-                  Mira la demo
-                </Button>
+                <Link to="/sign-up">
+                  <Button
+                    size="lg"
+                    className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"
+                  >
+                    ¡Empieza ahora!
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button
+                    size="lg"
+                    className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"
+                  >
+                    Ya tengo cuenta
+                  </Button>
+                </Link>
               </div>
               <p className="text-sm text-violet-100">
                 Sin tarjeta de crédito • Cancela cuando quieras • Garantía de reembolso por 30 días
@@ -541,7 +549,7 @@ export const Home = () => {
               </div>
             </div>
             <div className="space-y-4">
-              <h4 className="font-semibold text-white">Product</h4>
+              <h4 className="font-semibold text-white">Producto</h4>
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link to="#" className="text-gray-400 hover:text-violet-400">
@@ -581,7 +589,7 @@ export const Home = () => {
               </ul>
             </div>
             <div className="space-y-4" id="contact">
-              <h4 className="font-semibold text-white">Contact</h4>
+              <h4 className="font-semibold text-white">Contacto</h4>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2 text-gray-400">
                   <Mail className="h-4 w-4" />
