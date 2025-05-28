@@ -1,7 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
-import { googleLogin } from 'api/google-login'
+import { googleLogin } from 'api'
+import { ROUTES } from 'lib/constants'
 
 export function useGoogleLogin() {
   const navigate = useNavigate()
@@ -9,7 +10,7 @@ export function useGoogleLogin() {
   return useMutation({
     mutationFn: googleLogin,
     onSuccess: () => {
-      navigate('/dashboard')
+      navigate(ROUTES.DASHBOARD)
     },
   })
 }

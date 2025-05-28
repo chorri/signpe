@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { useGoogleLogin, useLogin } from 'hooks'
 import { Button, Input, Label, Separator } from 'components'
+import { ROUTES } from 'lib/constants'
 
 export const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false)
@@ -158,7 +159,7 @@ export const Login = () => {
             <p className="text-gray-400 text-sm">
               {"Don't have an account? "}
               <Link
-                to="/sign-up"
+                to={ROUTES.SIGN_UP}
                 className="text-rose-400 hover:text-rose-300 font-medium transition-colors"
               >
                 Sign up

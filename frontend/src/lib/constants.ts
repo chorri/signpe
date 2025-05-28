@@ -6,3 +6,10 @@ export const FIREBASE_ENV = {
   MESSAGING_SENDER_ID: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string,
   APP_ID: import.meta.env.VITE_FIREBASE_APP_ID as string,
 }
+
+export const ROUTES = {
+  HOME: '/',
+  LOGIN: '/login',
+  SIGN_UP: '/sign-up',
+  DASHBOARD: '/dashboard',
+}

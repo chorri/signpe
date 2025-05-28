@@ -26,13 +26,14 @@ import {
   CardHeader,
   CardTitle,
 } from 'components'
+import { ROUTES } from 'lib/constants'
 
 export const Home = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900">
       {/* Header */}
       <header className="px-4 lg:px-6 h-16 w-full flex justify-between items-center border-b border-gray-800 bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-gray-900/60 sticky top-0 z-50">
-        <Link className="flex items-center justify-center" to="/">
+        <Link className="flex items-center justify-center" to={ROUTES.HOME}>
           <div className="bg-violet-600 text-white p-2 rounded-lg mr-2">
             <HandHeart className="h-6 w-6" />
           </div>
@@ -64,7 +65,7 @@ export const Home = () => {
             Contacto
           </a>
         </nav>
-        <Link to="/login" className="ml-4">
+        <Link to={ROUTES.LOGIN} className="ml-4">
           <Button size="sm" className="bg-violet-600 hover:bg-violet-700">
             Inicia sesión <LogIn />
           </Button>
@@ -88,12 +89,12 @@ export const Home = () => {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link to="/sign-up">
+                  <Link to={ROUTES.SIGN_UP}>
                     <Button size="lg" className="bg-violet-600 hover:bg-violet-700">
                       ¡Empieza ahora!
                     </Button>
                   </Link>
-                  <Link to="/login">
+                  <Link to={ROUTES.LOGIN}>
                     <Button
                       variant="outline"
                       size="lg"
@@ -494,7 +495,7 @@ export const Home = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-4 min-[400px]:flex-row">
-                <Link to="/sign-up">
+                <Link to={ROUTES.SIGN_UP}>
                   <Button
                     size="lg"
                     className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"
@@ -502,7 +503,7 @@ export const Home = () => {
                     ¡Empieza ahora!
                   </Button>
                 </Link>
-                <Link to="/login">
+                <Link to={ROUTES.LOGIN}>
                   <Button
                     size="lg"
                     className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"

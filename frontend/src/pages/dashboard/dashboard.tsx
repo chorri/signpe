@@ -1,14 +1,19 @@
 import * as React from 'react'
 
+import { useLogout } from 'hooks'
 import { Button } from 'components'
 
 export const Dashboard = () => {
-  const [count, setCount] = React.useState(0)
+  const logoutMutation = useLogout()
+
+  const handleLogout = () => {
+    logoutMutation.mutate()
+  }
 
   return (
     <>
-      <Button variant="destructive" onClick={() => setCount(count => count + 1)}>
-        Dashboard
+      <Button variant="destructive" onClick={handleLogout}>
+        Cerrar sesión
       </Button>
     </>
   )
