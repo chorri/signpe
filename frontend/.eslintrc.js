@@ -1,4 +1,4 @@
-const modules = ['typings', 'tests', 'contexts', 'hooks', 'components', 'helpers', 'pages', 'lib']
+const modules = ['typings', 'api', 'contexts', 'hooks', 'components', 'helpers', 'pages', 'lib']
 
 const assets = ['^.+\\.css$', '^assets', '^static']
 
