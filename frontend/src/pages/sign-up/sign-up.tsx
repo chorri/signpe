@@ -79,8 +79,8 @@ export const SignUp = () => {
       {/* Content */}
       <div className="relative z-10 w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-white">Create your account</h1>
-          <p className="text-gray-400">Sign up to get started with your journey</p>
+          <h1 className="text-3xl font-bold text-white">Crea tu Cuenta</h1>
+          <p className="text-gray-400">Regístrate para comenzar tu experiencia</p>
         </div>
 
         <div className="bg-gray-900/80 backdrop-blur-xl p-8 rounded-lg border border-gray-800/50 shadow-2xl">
@@ -88,14 +88,14 @@ export const SignUp = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-gray-200">
-                  Email
+                  Correo
                 </Label>
                 <Input
                   id="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Ingresa tu correo"
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-violet-500 focus:ring-violet-500"
                   required
                 />
@@ -103,13 +103,13 @@ export const SignUp = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-gray-200">
-                  Password
+                  Contraseña
                 </Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Create a password"
+                    placeholder="Crea una contraseña"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-violet-500 focus:ring-violet-500 pr-10"
@@ -127,13 +127,13 @@ export const SignUp = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword" className="text-gray-200">
-                  Confirm Password
+                  Confirmar contraseña
                 </Label>
                 <div className="relative">
                   <Input
                     id="confirmPassword"
                     type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="Confirm your password"
+                    placeholder="Confirma tu contraseña"
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
                     className={`bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 pr-10 ${
@@ -158,9 +158,11 @@ export const SignUp = () => {
                   </button>
                 </div>
                 {passwordsDoNotMatch && (
-                  <p className="text-rose-400 text-sm mt-1">Passwords do not match</p>
+                  <p className="text-rose-400 text-sm mt-1">Las contraseñas no coinciden</p>
                 )}
-                {passwordsMatch && <p className="text-green-400 text-sm mt-1">Passwords match</p>}
+                {passwordsMatch && (
+                  <p className="text-green-400 text-sm mt-1">Las contraseñas coinciden</p>
+                )}
               </div>
             </div>
 
@@ -176,7 +178,7 @@ export const SignUp = () => {
               }
             >
               {registerMutation.isPending && <Loader2 className="animate-spin" />}
-              Create Account
+              Crear Cuenta
             </Button>
           </form>
 
@@ -186,7 +188,7 @@ export const SignUp = () => {
                 <Separator className="w-full bg-gray-700" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-gray-900 px-2 text-gray-400">Or continue with</span>
+                <span className="bg-gray-900 px-2 text-gray-400">O Continúa con Google</span>
               </div>
             </div>
 
@@ -197,13 +199,13 @@ export const SignUp = () => {
               className="w-full mt-4 bg-gray-800 border-gray-700 text-white hover:bg-gray-750 hover:border-gray-60 hover:text-violet-400 transition-colors"
             >
               {renderGoogleIcon()}
-              Sign up with Google
+              Regístrate con Google
             </Button>
           </div>
 
           <div className="mt-6 text-center">
             <p className="text-gray-400 text-sm">
-              Already have an account?{' '}
+              ¿Ya tienes una cuenta?{' '}
               <Link
                 to={ROUTES.LOGIN}
                 className="text-rose-400 hover:text-rose-300 font-medium transition-colors"

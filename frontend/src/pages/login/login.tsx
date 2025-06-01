@@ -69,8 +69,8 @@ export const Login = () => {
       {/* Content */}
       <div className="relative z-10 w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-white">Welcome back</h1>
-          <p className="text-gray-400">Sign in to your account to continue</p>
+          <h1 className="text-3xl font-bold text-white">Bienvenido de Nuevo</h1>
+          <p className="text-gray-400">Inicia sesión en tu cuenta para continuar</p>
         </div>
 
         <div className="bg-gray-900/80 backdrop-blur-xl p-8 rounded-lg border border-gray-800/50 shadow-2xl">
@@ -78,14 +78,14 @@ export const Login = () => {
             <div className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-gray-200">
-                  Email
+                  Correo
                 </Label>
                 <Input
                   id="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Ingresa tu correo"
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-violet-500 focus:ring-violet-500"
                   required
                 />
@@ -94,7 +94,7 @@ export const Login = () => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" className="text-gray-200">
-                    Password
+                    Contraseña
                   </Label>
                   {/* <Link
                     to="/forgot-password"
@@ -109,7 +109,7 @@ export const Login = () => {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter your password"
+                    placeholder="Ingresa tu contraseña"
                     className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-violet-500 focus:ring-violet-500 pr-10"
                     required
                   />
@@ -140,7 +140,7 @@ export const Login = () => {
                 <Separator className="w-full bg-gray-700" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-gray-900 px-2 text-gray-400">Or continue with</span>
+                <span className="bg-gray-900 px-2 text-gray-400"> O Continúa con Google</span>
               </div>
             </div>
 
@@ -151,18 +151,18 @@ export const Login = () => {
               className="w-full mt-4 bg-gray-800 border-gray-700 text-white hover:bg-gray-750 hover:border-gray-600 hover:text-violet-400 transition-colors"
             >
               {renderGoogleIcon()}
-              Continue with Google
+              Continuar con Google
             </Button>
           </div>
 
           <div className="mt-6 text-center">
             <p className="text-gray-400 text-sm">
-              {"Don't have an account? "}
+              {'¿No tienes una cuenta? '}
               <Link
                 to={ROUTES.SIGN_UP}
                 className="text-rose-400 hover:text-rose-300 font-medium transition-colors"
               >
-                Sign up
+                Regístrate
               </Link>
             </p>
           </div>
