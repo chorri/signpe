@@ -130,7 +130,7 @@ export const Login = () => {
               className="w-full bg-violet-600 hover:bg-violet-700 text-white font-medium py-2.5 transition-colors"
             >
               {loginMutation.isPending && <Loader2 className="animate-spin" />}
-              Iniciar sesión
+              Iniciar Sesión
             </Button>
           </form>
 

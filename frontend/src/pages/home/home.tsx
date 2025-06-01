@@ -67,7 +67,7 @@ export const Home = () => {
         </nav>
         <Link to={ROUTES.LOGIN} className="ml-4">
           <Button size="sm" className="bg-violet-600 hover:bg-violet-700">
-            Inicia sesión <LogIn />
+            Inicia Sesión <LogIn />
           </Button>
         </Link>
       </header>

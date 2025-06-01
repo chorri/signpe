@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import { AuthProvider } from 'contexts'
 import { ProtectedRoute, PublicRoute } from 'components'
-import { Dashboard, Home, Login, SignUp } from 'pages'
+import { Dashboard, Home, Login, SetupUser, SignUp } from 'pages'
 import { ROUTES } from 'lib/constants'
 
 function App() {
@@ -36,6 +36,14 @@ function App() {
                 <PublicRoute>
                   <SignUp />
                 </PublicRoute>
+              }
+            />
+            <Route
+              path={ROUTES.SETUP_USER}
+              element={
+                <ProtectedRoute>
+                  <SetupUser />
+                </ProtectedRoute>
               }
             />
             <Route
