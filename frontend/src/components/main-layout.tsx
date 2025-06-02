@@ -35,14 +35,20 @@ export const MainLayout = () => {
   }
 
   const getUsername = () => {
-    if (!userQuery.data?.username) return ''
+    if (!userQuery.data?.username) {
+      return null
+    }
 
     const username = String(userQuery.data.username)
 
-    return username.charAt(0).toUpperCase() + username.slice(1)
+    const formattedUsername = username.charAt(0).toUpperCase() + username.slice(1)
+
+    const avatarName = username.slice(0, 2).toUpperCase()
+
+    return { formattedUsername, avatarName }
   }
 
-  const formattedUsername = getUsername()
+  const { formattedUsername, avatarName } = getUsername()
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900">
@@ -66,8 +72,8 @@ export const MainLayout = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                 <Avatar className="h-10 w-10">
-                  <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Alex Johnson" />
-                  <AvatarFallback className="bg-violet-600 text-white">Foto</AvatarFallback>
+                  <AvatarImage src="/placeholder.svg?height=40&width=40" alt={formattedUsername} />
+                  <AvatarFallback className="bg-violet-600 text-white">{avatarName}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -97,7 +103,7 @@ export const MainLayout = () => {
                 onClick={handleLogout}
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span>Cerrrar Sesión</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -129,7 +135,7 @@ export const MainLayout = () => {
               </Link>
             </div>
             <div className="text-sm text-gray-400 mt-4 md:mt-0">
-              © {new Date().getFullYear()} SignPe. All rights reserved.
+              © {new Date().getFullYear()} SignPE. All rights reserved.
             </div>
           </div>
         </div>
