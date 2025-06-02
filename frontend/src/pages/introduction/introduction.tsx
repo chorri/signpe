@@ -15,7 +15,7 @@ import {
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
 import { Link } from 'react-router-dom'
 
-import { useGetCategories } from 'hooks'
+import { useGetCategories, useGetSigns } from 'hooks'
 import {
   Badge,
   Button,
@@ -136,17 +136,21 @@ export const Introduction = () => {
 
   const categoriesQuery = useGetCategories()
 
+  const signsQuery = useGetSigns(expandedCategory)
+
   const toggleCategory = (categoryId: string) => {
     setExpandedCategory(expandedCategory === categoryId ? null : categoryId)
   }
 
-  console.log('categoriesData.data', categoriesQuery.data)
+  console.log('signsQuery.data', signsQuery.data)
 
   if (categoriesQuery.isPending) {
     return null
   }
 
-  const categoriesData = categoriesQuery.data
+  const categoriesData = categoriesQuery.data || []
+
+  const signsData = signsQuery.data || []
 
   return (
     <main className="flex-1 p-6">
@@ -171,7 +175,7 @@ export const Introduction = () => {
 
         {/* Categories List */}
         <div className="space-y-4">
-          {categoriesData.map((category, key) => (
+          {categoriesData.map((category, index) => (
             <div key={category.id} className="space-y-2">
               {/* Category Header */}
               <Card
@@ -183,7 +187,7 @@ export const Introduction = () => {
                     <div className="flex items-center gap-4">
                       <div
                         className={`p-2 rounded-lg ${
-                          key % 2 === 0
+                          index % 2 === 0
                             ? 'bg-violet-900/30 text-violet-400'
                             : 'bg-rose-900/30 text-rose-400'
                         }`}
@@ -202,7 +206,7 @@ export const Introduction = () => {
                         <Badge
                           variant="outline"
                           className={`min-w-max ${
-                            key % 2 === 0
+                            index % 2 === 0
                               ? 'border-violet-600 text-violet-400'
                               : 'border-rose-600 text-rose-400'
                           }`}
@@ -221,37 +225,35 @@ export const Introduction = () => {
               </Card>
 
               {/* Expanded Subcategories */}
-              {/* {expandedCategory === category.id && (
+              {expandedCategory === category.id && (
                 <div className="ml-4 space-y-2 animate-in slide-in-from-top-2 duration-200">
-                  {category.subcategories.map(subcategory => (
+                  {signsData.map((sign, index) => (
                     <Card
-                      key={subcategory.id}
+                      key={sign.id}
                       className="bg-gray-800/50 border-gray-700 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
                     >
                       <CardContent className="py-3">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="flex items-center justify-center w-8 h-8">
-                              {subcategory.completed ? (
+                              {false ? (
                                 <CheckCircle2 className="h-6 w-6 text-green-500" />
                               ) : (
                                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-700 text-gray-300 text-sm font-medium">
-                                  {subcategory.id}
+                                  {index + 1}
                                 </div>
                               )}
                             </div>
                             <div className="flex-1">
-                              <h4 className="text-white font-medium mb-1">{subcategory.name}</h4>
+                              <h4 className="text-white font-medium mb-1">{sign.name}</h4>
                               <div className="flex items-center gap-2">
                                 <div className="w-32 bg-gray-700 rounded-full h-1.5">
                                   <div
                                     className="bg-violet-600 h-1.5 rounded-full transition-all duration-300"
-                                    style={{ width: `${subcategory.progress}%` }}
+                                    style={{ width: `${0}%` }}
                                   ></div>
                                 </div>
-                                <span className="text-xs text-gray-400">
-                                  {subcategory.progress}%
-                                </span>
+                                <span className="text-xs text-gray-400">0%</span>
                               </div>
                             </div>
                           </div>
@@ -267,7 +269,7 @@ export const Introduction = () => {
                     </Card>
                   ))}
                 </div>
-              )} */}
+              )}
             </div>
           ))}
         </div>
