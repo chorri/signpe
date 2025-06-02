@@ -614,13 +614,13 @@ export const Home = () => {
             </p>
             <nav className="flex gap-4 mt-4 sm:mt-0">
               <Link to="#" className="text-xs text-gray-400 hover:text-violet-400">
-                Privacy Policy
+                Politica de Privacidad
               </Link>
               <Link to="#" className="text-xs text-gray-400 hover:text-violet-400">
-                Terms of Service
+                Terminos de Servicio
               </Link>
               <Link to="#" className="text-xs text-gray-400 hover:text-violet-400">
-                Cookie Policy
+                Politica de Cookies
               </Link>
             </nav>
           </div>

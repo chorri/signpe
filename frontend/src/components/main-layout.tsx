@@ -52,12 +52,14 @@ export const MainLayout = () => {
           <div className="bg-violet-600 text-white p-2 rounded-lg mr-2">
             <BookOpen className="h-6 w-6" />
           </div>
-          <span className="font-bold text-xl text-white">SignPe</span>
+          <span className="font-bold text-xl text-white">SignPE</span>
         </Link>
 
         <div className="ml-auto flex items-center gap-4">
           <div className="hidden md:block">
-            <h2 className="text-lg font-semibold text-white">Welcome, {formattedUsername}</h2>
+            <h2 className="text-lg font-semibold text-white">
+              Te damos la bienvenida, {formattedUsername}
+            </h2>
           </div>
 
           <DropdownMenu>
@@ -65,7 +67,7 @@ export const MainLayout = () => {
               <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                 <Avatar className="h-10 w-10">
                   <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Alex Johnson" />
-                  <AvatarFallback className="bg-violet-600 text-white">AJ</AvatarFallback>
+                  <AvatarFallback className="bg-violet-600 text-white">Foto</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -113,17 +115,17 @@ export const MainLayout = () => {
               <div className="bg-violet-600 text-white p-1.5 rounded-lg mr-2">
                 <BookOpen className="h-4 w-4" />
               </div>
-              <span className="font-bold text-white">SignPe</span>
+              <span className="font-bold text-white">SignPE</span>
             </div>
             <div className="flex gap-6">
               <Link to="#" className="text-sm text-gray-400 hover:text-violet-400">
-                Help Center
+                Centro de Ayuda
               </Link>
               <Link to="#" className="text-sm text-gray-400 hover:text-violet-400">
-                Privacy Policy
+                Politica de Privacidad
               </Link>
               <Link to="#" className="text-sm text-gray-400 hover:text-violet-400">
-                Terms of Service
+                Terminos de Servicio
               </Link>
             </div>
             <div className="text-sm text-gray-400 mt-4 md:mt-0">
