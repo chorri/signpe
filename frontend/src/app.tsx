@@ -2,8 +2,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import { AuthProvider } from 'contexts'
-import { ProtectedRoute, PublicRoute } from 'components'
-import { Dashboard, Home, Login, SetupUser, SignUp } from 'pages'
+import { MainLayout, ProtectedRoute, PublicRoute } from 'components'
+import { Dashboard, Home, Introduction, Login, SetupUser, SignUp } from 'pages'
 import { ROUTES } from 'lib/constants'
 
 function App() {
@@ -46,14 +46,24 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path={ROUTES.DASHBOARD}
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+            <Route element={<MainLayout />}>
+              <Route
+                path={ROUTES.DASHBOARD}
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={ROUTES.INTRODUCTION}
+                element={
+                  <ProtectedRoute>
+                    <Introduction />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
           </Routes>
         </Router>
       </AuthProvider>

@@ -1,5 +1,6 @@
 export * from './dashboard'
 export * from './home'
+export * from './introduction'
 export * from './login'
 export * from './setup-user'
 export * from './sign-up'
