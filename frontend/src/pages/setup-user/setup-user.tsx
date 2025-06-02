@@ -60,8 +60,10 @@ export const SetupUser = () => {
       {/* Content */}
       <div className="relative z-10 w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-white">Finish your setup</h1>
-          <p className="text-gray-400">Finish your setup to started with your journey</p>
+          <h1 className="text-3xl font-bold text-white">¿Comó te llamamos?</h1>
+          <p className="text-gray-400">
+            Termina de configurar tu cuenta para empezar tu aprendizaje
+          </p>
         </div>
 
         <div className="bg-gray-900/80 backdrop-blur-xl p-8 rounded-lg border border-gray-800/50 shadow-2xl">
@@ -69,14 +71,14 @@ export const SetupUser = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-gray-200">
-                  Full Name
+                  Nombre de usuario
                 </Label>
                 <Input
                   id="name"
                   value={username}
                   onChange={e => setUsername(e.target.value)}
                   type="text"
-                  placeholder="Enter your full name"
+                  placeholder="Ingresa tu nombre de usuario"
                   className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-violet-500 focus:ring-violet-500"
                   required
                 />
@@ -89,7 +91,7 @@ export const SetupUser = () => {
               disabled={!username || isSubmitting}
             >
               {isSubmitting && <Loader2 className="animate-spin" />}
-              Finish Setup
+              Empezar
             </Button>
           </form>
         </div>
