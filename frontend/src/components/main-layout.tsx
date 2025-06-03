@@ -30,6 +30,10 @@ export const MainLayout = () => {
     return null
   }
 
+  if (!user) {
+    return <Navigate to={ROUTES.HOME} replace />
+  }
+
   if (userQuery.data === null) {
     return <Navigate to={ROUTES.SETUP_USER} replace />
   }

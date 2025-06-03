@@ -47,22 +47,8 @@ function App() {
               }
             />
             <Route element={<MainLayout />}>
-              <Route
-                path={ROUTES.DASHBOARD}
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={ROUTES.INTRODUCTION}
-                element={
-                  <ProtectedRoute>
-                    <Introduction />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+              <Route path={ROUTES.INTRODUCTION} element={<Introduction />} />
             </Route>
           </Routes>
         </Router>
