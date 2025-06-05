@@ -331,7 +331,7 @@ export const Home = () => {
               {/* Free Plan */}
               <Card className="relative bg-gray-800 border-violet-700">
                 <CardHeader>
-                  <CardTitle className="text-white">Introductorio</CardTitle>
+                  <CardTitle className="text-white">Básico</CardTitle>
                   <CardDescription className="text-gray-400">Perfecto para iniciar</CardDescription>
                   <div className="text-3xl font-bold text-white">
                     $0<span className="text-sm font-normal text-gray-400">/mes</span>
@@ -367,7 +367,7 @@ export const Home = () => {
               {/* Basic Plan */}
               <Card className="relative opacity-60 bg-gray-800 border-gray-700">
                 <CardHeader>
-                  <CardTitle className="text-white">Básico</CardTitle>
+                  <CardTitle className="text-white">Intermedio</CardTitle>
                   <CardDescription className="text-gray-400">
                     Para estudiantes dedicados
                   </CardDescription>
@@ -405,7 +405,7 @@ export const Home = () => {
               {/* Pro Plan */}
               <Card className="relative opacity-60 bg-gray-800 border-gray-700">
                 <CardHeader>
-                  <CardTitle className="text-white">Intermedio</CardTitle>
+                  <CardTitle className="text-white">Avanzado</CardTitle>
                   <CardDescription className="text-gray-400">
                     Para estudiantes comprometidos
                   </CardDescription>
@@ -443,7 +443,7 @@ export const Home = () => {
               {/* Enterprise Plan */}
               <Card className="relative opacity-60 bg-gray-800 border-gray-700">
                 <CardHeader>
-                  <CardTitle className="text-white">Avanzado</CardTitle>
+                  <CardTitle className="text-white">Experto</CardTitle>
                   <CardDescription className="text-gray-400">
                     Para profesionales del lenguaje de señas
                   </CardDescription>

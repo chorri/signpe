@@ -15,11 +15,11 @@ import { ROUTES } from 'lib/constants'
 const courseData = [
   {
     id: 1,
-    title: 'Foundation',
+    title: 'Básico',
     description: 'Learn the basics of sign language and fundamental gestures',
     level: 'Introduction',
-    lessons: 12,
-    duration: '2 hours',
+    lessons: 20,
+    duration: '0 horas',
     progress: 0,
     available: true,
     icon: '🌟',
@@ -28,11 +28,11 @@ const courseData = [
   },
   {
     id: 2,
-    title: 'Essentials',
+    title: 'Intermedio',
     description: 'Build your vocabulary with common words and phrases',
     level: 'Basic',
     lessons: 24,
-    duration: '6 hours',
+    duration: '0 horas',
     progress: 0,
     available: false,
     icon: '📚',
@@ -41,11 +41,11 @@ const courseData = [
   },
   {
     id: 3,
-    title: 'Proficient',
+    title: 'Avanzado',
     description: 'Practice conversations and complex sentence structures',
     level: 'Intermediate',
-    lessons: 36,
-    duration: '12 hours',
+    lessons: 20,
+    duration: '0 horas',
     progress: 0,
     available: false,
     icon: '💬',
@@ -54,11 +54,11 @@ const courseData = [
   },
   {
     id: 4,
-    title: 'Expert',
+    title: 'Experto',
     description: 'Master advanced techniques and cultural nuances',
     level: 'Advanced',
-    lessons: 48,
-    duration: '20 hours',
+    lessons: 20,
+    duration: '0 horas',
     progress: 0,
     available: false,
     icon: '🎓',
@@ -169,7 +169,7 @@ export const Dashboard = () => {
                   <div className="flex items-center gap-4 text-sm text-gray-400">
                     <div className="flex items-center gap-1">
                       <BookOpen className="h-4 w-4" />
-                      <span>{course.lessons} lessons</span>
+                      <span>{course.lessons} señas</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Clock className="h-4 w-4" />
