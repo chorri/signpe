@@ -193,6 +193,7 @@ export const SignUp = () => {
             </div>
 
             <Button
+              type="button"
               onClick={handleGoogleRegister}
               disabled={registerWithGoogle.isPending}
               variant="outline"

@@ -24,7 +24,7 @@ const courseData = [
     available: true,
     icon: '🌟',
     color: 'violet',
-    to: ROUTES.INTRODUCTION,
+    to: ROUTES.BASIC,
   },
   {
     id: 2,
@@ -190,6 +190,7 @@ export const Dashboard = () => {
                         ></div>
                       </div>
                       <Button
+                        type="button"
                         className="w-full mt-4 bg-violet-600 hover:bg-violet-700"
                         onClick={() => navigateTo(course.id)}
                       >
@@ -197,7 +198,7 @@ export const Dashboard = () => {
                       </Button>
                     </div>
                   ) : (
-                    <Button disabled className="w-full mt-4">
+                    <Button type="button" disabled className="w-full mt-4">
                       Coming Soon
                     </Button>
                   )}

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import { AuthProvider } from 'contexts'
 import { MainLayout, ProtectedRoute, PublicRoute } from 'components'
-import { Dashboard, Home, Introduction, Login, SetupUser, SignUp } from 'pages'
+import { Basic, Dashboard, Home, Login, SetupUser, SignPractice, SignUp } from 'pages'
 import { ROUTES } from 'lib/constants'
 
 function App() {
@@ -48,7 +48,8 @@ function App() {
             />
             <Route element={<MainLayout />}>
               <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-              <Route path={ROUTES.INTRODUCTION} element={<Introduction />} />
+              <Route path={ROUTES.BASIC} element={<Basic />} />
+              <Route path={`${ROUTES.BASIC}/:signId`} element={<SignPractice />} />
             </Route>
           </Routes>
         </Router>

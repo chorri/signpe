@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import * as React from 'react'
 import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { useGetCategories, useGetSigns } from 'hooks'
 import {
@@ -15,27 +15,32 @@ import {
   CardHeader,
   CardTitle,
 } from 'components'
+import { ROUTES } from 'lib/constants'
 
-export const Introduction = () => {
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null)
+export const Basic = () => {
+  const navigate = useNavigate()
+
+  const [expandedCategory, setExpandedCategory] = React.useState<string | null>(null)
 
   const categoriesQuery = useGetCategories()
 
   const signsQuery = useGetSigns(expandedCategory)
 
+  const categoriesData = categoriesQuery.data || []
+
+  const signsData = signsQuery.data || []
+
   const toggleCategory = (categoryId: string) => {
     setExpandedCategory(expandedCategory === categoryId ? null : categoryId)
   }
 
-  console.log('signsQuery.data', signsQuery.data)
+  const handleSignClick = (signId: string) => {
+    // navigate(`${ROUTES.BASIC}/${signId}`)
+  }
 
   if (categoriesQuery.isPending) {
     return null
   }
-
-  const categoriesData = categoriesQuery.data || []
-
-  const signsData = signsQuery.data || []
 
   return (
     <main className="flex-1 p-6">
@@ -115,6 +120,7 @@ export const Introduction = () => {
                   {signsData.map((sign, index) => (
                     <Card
                       key={sign.id}
+                      onClick={() => handleSignClick(sign.id)}
                       className="bg-gray-800/50 border-gray-700 hover:bg-gray-800 transition-all duration-200 cursor-pointer"
                     >
                       <CardContent className="py-3">
@@ -143,6 +149,8 @@ export const Introduction = () => {
                             </div>
                           </div>
                           <Button
+                            onClick={() => handleSignClick(sign.id)}
+                            type="button"
                             size="sm"
                             variant="ghost"
                             className="h-8 w-8 p-0 hover:bg-violet-600/20"

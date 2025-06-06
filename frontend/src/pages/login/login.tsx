@@ -145,6 +145,7 @@ export const Login = () => {
             </div>
 
             <Button
+              type="button"
               onClick={handleGoogleLogin}
               disabled={loginWithGoogle.isPending}
               variant="outline"

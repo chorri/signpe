@@ -66,7 +66,7 @@ export const Home = () => {
           </a>
         </nav>
         <Link to={ROUTES.LOGIN} className="ml-4">
-          <Button size="sm" className="bg-violet-600 hover:bg-violet-700">
+          <Button type="button" size="sm" className="bg-violet-600 hover:bg-violet-700">
             Inicia Sesión <LogIn />
           </Button>
         </Link>
@@ -90,12 +90,13 @@ export const Home = () => {
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link to={ROUTES.SIGN_UP}>
-                    <Button size="lg" className="bg-violet-600 hover:bg-violet-700">
+                    <Button type="button" size="lg" className="bg-violet-600 hover:bg-violet-700">
                       ¡Empieza ahora!
                     </Button>
                   </Link>
                   <Link to={ROUTES.LOGIN}>
                     <Button
+                      type="button"
                       variant="outline"
                       size="lg"
                       className="bg-transparent text-violet-400 border-violet-400 hover:bg-violet-900/10  hover:text-violet-500 hover:border-violet-500"
@@ -358,7 +359,7 @@ export const Home = () => {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full bg-violet-600 hover:bg-violet-700">
+                  <Button type="button" className="w-full bg-violet-600 hover:bg-violet-700">
                     Get Started Free
                   </Button>
                 </CardFooter>
@@ -396,7 +397,7 @@ export const Home = () => {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button disabled className="w-full">
+                  <Button type="button" disabled className="w-full">
                     Próximamente
                   </Button>
                 </CardFooter>
@@ -434,7 +435,7 @@ export const Home = () => {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button disabled className="w-full">
+                  <Button type="button" disabled className="w-full">
                     Próximamente
                   </Button>
                 </CardFooter>
@@ -472,7 +473,7 @@ export const Home = () => {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button disabled className="w-full">
+                  <Button type="button" disabled className="w-full">
                     Próximamente
                   </Button>
                 </CardFooter>
@@ -497,6 +498,7 @@ export const Home = () => {
               <div className="flex flex-col gap-4 min-[400px]:flex-row">
                 <Link to={ROUTES.SIGN_UP}>
                   <Button
+                    type="button"
                     size="lg"
                     className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"
                   >
@@ -505,6 +507,7 @@ export const Home = () => {
                 </Link>
                 <Link to={ROUTES.LOGIN}>
                   <Button
+                    type="button"
                     size="lg"
                     className="bg-violet-100/10 text-violet-200 border border-violet-200 hover:bg-violet-200/15 hover:text-violet-300 hover:border-violet-300"
                   >
