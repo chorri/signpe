@@ -48,18 +48,20 @@ export const Basic = () => {
         {/* Breadcrumb */}
         <div className="flex items-center text-sm mb-6">
           <Link to="/dashboard" className="text-gray-400 hover:text-violet-400">
-            Dashboard
+            Inicio
           </Link>
           <ChevronRight className="h-4 w-4 mx-2 text-gray-600" />
-          <span className="text-white font-medium">Introduction</span>
+          <span className="text-white font-medium">Básico</span>
         </div>
 
         {/* Level Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Introduction to Sign Language</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Nivel Básico del Lenguaje de Señas Peruano (LSP)
+          </h1>
           <p className="text-gray-300 max-w-3xl">
-            Begin your journey into American Sign Language. Click on any category below to explore
-            the individual signs and start learning.
+            Empieza tu aventura en el lenguaje de señas peruano. Haz click en cualquier categoría
+            para explorar las señas y comenzar a aprender.
           </p>
         </div>
 
@@ -101,7 +103,7 @@ export const Basic = () => {
                               : 'border-rose-600 text-rose-400'
                           }`}
                         >
-                          {`0/${category.signCount} signs resolved`}
+                          {`Completado 0/${category.signCount} Señas`}
                         </Badge>
                       </div>
                       <ChevronDown

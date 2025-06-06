@@ -15,9 +15,9 @@ import { ROUTES } from 'lib/constants'
 const courseData = [
   {
     id: 1,
-    title: 'Básico',
-    description: 'Learn the basics of sign language and fundamental gestures',
-    level: 'Introduction',
+    title: 'Nivel Básico',
+    description: 'Aprende señas básicas del lenguaje de señas y aprende el alfabeto dactilológico',
+    level: 'Básico',
     lessons: 20,
     duration: '0 horas',
     progress: 0,
@@ -28,9 +28,9 @@ const courseData = [
   },
   {
     id: 2,
-    title: 'Intermedio',
-    description: 'Build your vocabulary with common words and phrases',
-    level: 'Basic',
+    title: 'Nivel Intermedio',
+    description: 'Enriquece tu vocabulario con palabras y frases comunes para usar en el día a día',
+    level: 'Intermedio',
     lessons: 24,
     duration: '0 horas',
     progress: 0,
@@ -41,22 +41,24 @@ const courseData = [
   },
   {
     id: 3,
-    title: 'Avanzado',
-    description: 'Practice conversations and complex sentence structures',
-    level: 'Intermediate',
+    title: 'Nivel Avanzado',
+    description:
+      'Refuerza tus habilidades para construir oraciones complejas y comunicarte con mayor precisión',
+    level: 'Avanzado',
     lessons: 20,
     duration: '0 horas',
     progress: 0,
     available: false,
     icon: '💬',
-    color: 'rose',
+    color: 'violet',
     to: '',
   },
   {
     id: 4,
-    title: 'Experto',
-    description: 'Master advanced techniques and cultural nuances',
-    level: 'Advanced',
+    title: 'Nivel Experto',
+    description:
+      'Perfecciona tu conocimiento para interpretar conversaciones a tiempo real y participar en presentaciones formales',
+    level: 'Experto',
     lessons: 20,
     duration: '0 horas',
     progress: 0,
@@ -83,9 +85,10 @@ export const Dashboard = () => {
       <div className="container mx-auto max-w-6xl">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Your Learning Journey</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">Tu camino de aprendizaje</h1>
           <p className="text-gray-300">
-            Progress through our structured courses to master American Sign Language
+            Avanza a través de nuestros niveles estructurados para dominar el Lenguaje de Señas
+            Peruano (LSP)
           </p>
         </div>
 
@@ -93,39 +96,41 @@ export const Dashboard = () => {
         <div className="grid gap-4 md:grid-cols-3 mb-8">
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-300">Total Progress</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-300">Progreso Total</CardTitle>
               <Trophy className="h-4 w-4 text-violet-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-white">0%</div>
-              <p className="text-xs text-gray-400">Start your first lesson</p>
+              <p className="text-xs text-gray-400">Inicia tu primer nivel</p>
             </CardContent>
           </Card>
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-300">Time Spent</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-300">
+                Tiempo en Prácticas
+              </CardTitle>
               <Clock className="h-4 w-4 text-rose-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-white">0h</div>
-              <p className="text-xs text-gray-400">Begin learning today</p>
+              <p className="text-xs text-gray-400">Inicia tu primera práctica</p>
             </CardContent>
           </Card>
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-300">Streak</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-300">Racha de Días</CardTitle>
               <Star className="h-4 w-4 text-violet-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">0 days</div>
-              <p className="text-xs text-gray-400">Start your streak</p>
+              <div className="text-2xl font-bold text-white">0 días</div>
+              <p className="text-xs text-gray-400">Inicia tu racha</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Course Levels */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Course Levels</h2>
+          <h2 className="text-2xl font-bold text-white mb-6">Selección de Nivel</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
             {courseData.map(course => (
               <Card
@@ -194,12 +199,12 @@ export const Dashboard = () => {
                         className="w-full mt-4 bg-violet-600 hover:bg-violet-700"
                         onClick={() => navigateTo(course.id)}
                       >
-                        Start Learning
+                        Empieza a Aprender
                       </Button>
                     </div>
                   ) : (
                     <Button type="button" disabled className="w-full mt-4">
-                      Coming Soon
+                      Próximamente
                     </Button>
                   )}
                 </CardContent>
