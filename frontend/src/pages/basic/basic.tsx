@@ -35,7 +35,7 @@ export const Basic = () => {
   }
 
   const handleSignClick = (signId: string) => {
-    // navigate(`${ROUTES.BASIC}/${signId}`)
+    navigate(`${ROUTES.BASIC}/${signId}`)
   }
 
   if (categoriesQuery.isPending) {

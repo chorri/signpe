@@ -11,8 +11,6 @@ export const useCamera = () => {
 
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
-  const recordedChunks = React.useRef<Blob[]>([])
-
   const isLoading = false
 
   const progress = 0
@@ -41,36 +39,59 @@ export const useCamera = () => {
   }, [stream])
 
   const startRecording = React.useCallback(() => {
-    if (!stream) {
+    if (!stream || !videoRef.current) {
       return
-    }
-
-    recordedChunks.current = []
-
-    const recorder = new MediaRecorder(stream)
-
-    recorder.ondataavailable = e => e.data.size > 0 && recordedChunks.current.push(e.data)
-
-    recorder.onstop = () => {
-      setIsRecording(false)
-
-      stopCameraFeed()
-
-      // Send data to API here
-      const blob = new Blob(recordedChunks.current, { type: 'video/webm' })
-
-      const formData = new FormData()
-
-      formData.append('video', blob, 'practice.webm')
-      // Example fetch:
-      // await fetch('/api/your-endpoint', { method: 'POST', body: formData })
     }
 
     setIsRecording(true)
 
-    recorder.start()
+    const canvas = document.createElement('canvas')
 
-    setTimeout(() => recorder.stop(), 3000)
+    canvas.width = 640
+
+    canvas.height = 480
+
+    const ctx = canvas.getContext('2d')
+
+    const images: string[] = []
+
+    const maxFrames = 30
+
+    let framesCaptured = 0
+
+    const interval = setInterval(() => {
+      if (!videoRef.current || !ctx) {
+        return
+      }
+
+      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height)
+
+      const base64 = canvas.toDataURL('image/jpeg')
+
+      images.push(base64)
+
+      framesCaptured++
+
+      const finalize = () => {
+        while (images.length < maxFrames) {
+          images.push(images[images.length - 1])
+        }
+
+        setIsRecording(false)
+
+        stopCameraFeed()
+
+        console.log('images', images)
+
+        // Ej: await fetch('/api/your-endpoint', { method: 'POST', body: JSON.stringify(images) })
+      }
+
+      if (framesCaptured >= maxFrames) {
+        clearInterval(interval)
+
+        finalize()
+      }
+    }, 100)
   }, [stream, stopCameraFeed])
 
   const startCountdown = React.useCallback(async () => {
@@ -99,12 +120,16 @@ export const useCamera = () => {
       .then(mediaStream => {
         mediaStream.getTracks().forEach(track => track.stop())
 
-        if (active) setCameraPermission(true)
+        if (active) {
+          setCameraPermission(true)
+        }
       })
       .catch(() => setCameraPermission(false))
 
     return () => {
-      if (stream) stream.getTracks().forEach(track => track.stop())
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop())
+      }
     }
   }, [])
 
