@@ -72,7 +72,7 @@ export const useCamera = () => {
 
       framesCaptured++
 
-      const finalize = () => {
+      const finalize = async () => {
         while (images.length < maxFrames) {
           images.push(images[images.length - 1])
         }
@@ -83,7 +83,11 @@ export const useCamera = () => {
 
         console.log('images', images)
 
-        // Ej: await fetch('/api/your-endpoint', { method: 'POST', body: JSON.stringify(images) })
+        await fetch('/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ frames: images }),
+        })
       }
 
       if (framesCaptured >= maxFrames) {
