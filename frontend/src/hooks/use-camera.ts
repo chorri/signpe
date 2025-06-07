@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-export const useCamera = () => {
+export const useCamera = (onRecordingFinished?: (frames: string[]) => void) => {
   const [isRecording, setIsRecording] = React.useState(false)
 
   const [countdown, setCountdown] = React.useState(0)
@@ -72,7 +72,7 @@ export const useCamera = () => {
 
       framesCaptured++
 
-      const finalize = async () => {
+      const finalize = () => {
         while (images.length < maxFrames) {
           images.push(images[images.length - 1])
         }
@@ -81,13 +81,9 @@ export const useCamera = () => {
 
         stopCameraFeed()
 
-        console.log('images', images)
-
-        await fetch('/predict', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ frames: images }),
-        })
+        if (onRecordingFinished) {
+          onRecordingFinished(images)
+        }
       }
 
       if (framesCaptured >= maxFrames) {

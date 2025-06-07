@@ -3,7 +3,7 @@
 import { Camera, CheckCircle2, ChevronRight, Loader2, Play } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 
-import { useCamera, useGetSign } from 'hooks'
+import { useCamera, useGetSign, usePredictSign } from 'hooks'
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Progress } from 'components'
 import { ROUTES } from 'lib/constants'
 import { getProgress } from 'lib/utils'
@@ -12,6 +12,13 @@ export const SignPractice = () => {
   const { signId } = useParams()
 
   const signQuery = useGetSign(signId)
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { mutate: predictSign, isPending, data } = usePredictSign()
+
+  console.log('data', data)
+
+  console.log('isPending', isPending)
 
   const {
     progress,
@@ -22,7 +29,9 @@ export const SignPractice = () => {
     stream,
     cameraPermission,
     startCountdown,
-  } = useCamera()
+  } = useCamera(frames => {
+    predictSign(frames)
+  })
 
   if (signQuery.isPending) {
     return null
