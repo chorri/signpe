@@ -13,31 +13,41 @@ export const SignPractice = () => {
 
   const signQuery = useGetSign(signId)
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { mutate: predictSign, isPending, data } = usePredictSign()
+  const predictMutation = usePredictSign()
 
-  console.log('data', data)
-
-  console.log('isPending', isPending)
-
-  const {
-    progress,
-    videoRef,
-    isRecording,
-    isLoading,
-    countdown,
-    stream,
-    cameraPermission,
-    startCountdown,
-  } = useCamera(frames => {
-    predictSign(frames)
-  })
+  const { videoRef, isRecording, countdown, stream, cameraPermission, startCountdown } = useCamera(
+    frames => {
+      predictMutation.mutate(frames)
+    }
+  )
 
   if (signQuery.isPending) {
     return null
   }
 
   const signData = signQuery.data
+
+  console.log('signData', signData)
+
+  const predictedData = predictMutation.data
+
+  console.log('predictMutation', predictedData)
+
+  const signLabel = 'verde'
+
+  const progressValue = () => {
+    if (signLabel in predictedData.confidence) {
+      const value = predictedData.confidence[signLabel]
+
+      return Math.round(Number(value))
+    }
+
+    return 0
+  }
+
+  const progress = progressValue()
+
+  console.log('progress', progress)
 
   const { color, message, textColor, approval } = getProgress(progress)
 
@@ -104,7 +114,7 @@ export const SignPractice = () => {
                   <Camera className="h-6 w-6  text-rose-400" />
                   Your Practice
                 </CardTitle>
-                {!isRecording && !countdown && !isLoading && cameraPermission && (
+                {!isRecording && !countdown && !predictMutation.isPending && cameraPermission && (
                   <Button
                     onClick={() => {
                       startCountdown()
@@ -120,7 +130,7 @@ export const SignPractice = () => {
             </CardHeader>
             <CardContent>
               <div className="aspect-video bg-gray-900 rounded-lg overflow-hidden relative">
-                {!stream && !countdown && !isRecording && !isLoading && (
+                {!stream && !countdown && !isRecording && !predictMutation.isPending && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
                       <Camera className="h-12 w-12 text-gray-500 mx-auto mb-4" />
@@ -157,7 +167,7 @@ export const SignPractice = () => {
                 )}
 
                 {/* Loading Overlay */}
-                {isLoading && (
+                {predictMutation.isPending && (
                   <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center">
                     <Loader2 className="h-12 w-12 text-violet-400 animate-spin mb-4" />
                     <p className="text-white text-lg">Analyzing your sign...</p>

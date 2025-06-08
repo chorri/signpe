@@ -11,10 +11,6 @@ export const useCamera = (onRecordingFinished?: (frames: string[]) => void) => {
 
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
-  const isLoading = false
-
-  const progress = 0
-
   const startCameraFeed = React.useCallback(async () => {
     const mediaStream = await navigator.mediaDevices.getUserMedia({
       video: { width: 640, height: 480 },
@@ -140,10 +136,8 @@ export const useCamera = (onRecordingFinished?: (frames: string[]) => void) => {
   }, [countdown, stream, isRecording, startRecording])
 
   return {
-    progress,
     videoRef,
     isRecording,
-    isLoading,
     countdown,
     stream,
     cameraPermission,
