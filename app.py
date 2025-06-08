@@ -84,6 +84,7 @@ def add_category_with_signs(custom_category_id, category_name, category_descript
         custom_sign_id = sign.get("id")
         sign_name = sign.get("name")
         sign_video_ref = sign.get("videoRef")
+        sign_label = sign.get("label")
 
         if not custom_sign_id or not sign_name:
             continue
@@ -91,6 +92,7 @@ def add_category_with_signs(custom_category_id, category_name, category_descript
         sign_ref = db.collection("signs").document(custom_sign_id)
         sign_ref.set({
             "name": sign_name,
+            "label": sign_label,
             "categoryId": custom_category_id,
             "videoRef": sign_video_ref
         }, merge=True)
@@ -100,21 +102,21 @@ def add_category_with_signs(custom_category_id, category_name, category_descript
 
 def create_all_categories():
     categoria_id = add_category_with_signs("categoryId01", "Alfabeto", "Aprende el abecedario en LSP y mejora tu habilidad para deletrear con señas.","hand", [
-    {"id": "signId001", "name": "Letra A", "videoRef": "4Pmnh4tRwuk"},
-    {"id": "signId002", "name": "Letra B", "videoRef": "qG1CQFiHX6c"},
-    {"id": "signId003", "name": "Letra C", "videoRef": "youtube.com"},
-    {"id": "signId004", "name": "Letra D", "videoRef": "youtube.com"},
-    {"id": "signId005", "name": "Letra E", "videoRef": "youtube.com"},
-    {"id": "signId006", "name": "Letra F", "videoRef": "youtube.com"}
+    {"id": "signId001", "name": "Letra A", "label":"a", "videoRef": "4Pmnh4tRwuk"},
+    {"id": "signId002", "name": "Letra B", "label":"b", "videoRef": "qG1CQFiHX6c"},
+    {"id": "signId003", "name": "Letra C", "label":"c", "videoRef": "youtube.com"},
+    {"id": "signId004", "name": "Letra D", "label":"d", "videoRef": "youtube.com"},
+    {"id": "signId005", "name": "Letra E", "label":"e", "videoRef": "youtube.com"},
+    {"id": "signId006", "name": "Letra F", "label":"f", "videoRef": "youtube.com"}
     ])
     print(f"Categoría creada con ID: {categoria_id}")
     categoria_id = add_category_with_signs("categoryId02", "Colores", "Identifica y aprende los colores básicos para describir el mundo que te rodea.","palette", [
-    {"id": "signId007", "name": "Verde", "videoRef": "youtube.com"},
-    {"id": "signId008", "name": "Rojo", "videoRef": "youtube.com"},
-    {"id": "signId009", "name": "Amarillo", "videoRef": "youtube.com"},
-    {"id": "signId010", "name": "Blanco", "videoRef": "youtube.com"},
-    {"id": "signId011", "name": "Negro", "videoRef": "youtube.com"},
-    {"id": "signId012", "name": "Morado", "videoRef": "youtube.com"}
+    {"id": "signId007", "name": "Verde", "label":"verde", "videoRef": "youtube.com"},
+    {"id": "signId008", "name": "Rojo", "label":"rojo", "videoRef": "youtube.com"},
+    {"id": "signId009", "name": "Amarillo", "label":"amarillo", "videoRef": "youtube.com"},
+    {"id": "signId010", "name": "Blanco", "label":"blanco", "videoRef": "youtube.com"},
+    {"id": "signId011", "name": "Negro", "label":"negro", "videoRef": "youtube.com"},
+    {"id": "signId012", "name": "Azul", "label":"azul", "videoRef": "youtube.com"}
     ])
     print(f"Categoría creada con ID: {categoria_id}")
     categoria_id = add_category_with_signs("categoryId03", "Familia", "Identifica y aprende los colores básicos para describir el mundo que te rodea.","palette", [
@@ -206,7 +208,9 @@ def predict():
     })
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 10000))
-    app.run(host='0.0.0.0', port=port)
+    #port = int(os.environ.get('PORT', 10000))
+    #app.run(host='0.0.0.0', port=port)
     #app.run(debug=True, host='127.0.0.1', port=5000)
+
+    create_all_categories()
 
