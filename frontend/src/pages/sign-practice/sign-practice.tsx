@@ -12,7 +12,7 @@ import { getProgress } from 'lib/utils'
 export const SignPractice = () => {
   const { signId } = useParams()
 
-  const [progress, setProgress] = React.useState(0)
+  const [progress, setProgress] = React.useState<number | null>(null)
 
   const signQuery = useGetSign(signId)
 
@@ -26,29 +26,19 @@ export const SignPractice = () => {
 
   const signData = signQuery.data
 
-  console.log('signData', signData)
-
   const predictedData = predictMutation.data
 
-  console.log('predictMutation', predictedData)
-
-  const signLabel = 'verde'
-
   React.useEffect(() => {
-    if (!predictedData || !predictedData.confidence) {
-      setProgress(0)
-
+    if (!predictedData || !predictedData.confidence || !signData || !signData.label) {
       return
     }
 
-    if (signLabel in predictedData.confidence) {
-      const value = predictedData.confidence[signLabel]
+    if (signData.label in predictedData.confidence) {
+      const value = predictedData.confidence[signData.label]
 
       setProgress(Math.round(Number(value)))
     }
-  }, [signLabel, predictedData])
-
-  console.log('progress', progress)
+  }, [signData, predictedData])
 
   if (signQuery.isPending) {
     return null
@@ -189,7 +179,7 @@ export const SignPractice = () => {
             <CardTitle className="text-white">Performance Score</CardTitle>
           </CardHeader>
           <CardContent>
-            {Boolean(progress) ? (
+            {progress !== null ? (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-300">Accuracy</span>

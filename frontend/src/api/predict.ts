@@ -1,5 +1,5 @@
 export interface PredictResponse {
-  confidence: object
+  confidence: Record<string, number>
 }
 
 export async function getPredict(frames: string[]): Promise<PredictResponse> {

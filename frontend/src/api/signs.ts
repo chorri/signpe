@@ -5,6 +5,7 @@ import { db } from 'lib/firebase'
 export interface SignInterface {
   id: string
   name: string
+  label: string
   categoryId: string
   videoRef: string
 }
