@@ -1,5 +1,6 @@
 'use client'
 
+import * as React from 'react'
 import { Camera, CheckCircle2, ChevronRight, Loader2, Play } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 
@@ -11,6 +12,8 @@ import { getProgress } from 'lib/utils'
 export const SignPractice = () => {
   const { signId } = useParams()
 
+  const [progress, setProgress] = React.useState(0)
+
   const signQuery = useGetSign(signId)
 
   const predictMutation = usePredictSign()
@@ -20,10 +23,6 @@ export const SignPractice = () => {
       predictMutation.mutate(frames)
     }
   )
-
-  if (signQuery.isPending) {
-    return null
-  }
 
   const signData = signQuery.data
 
@@ -35,19 +34,25 @@ export const SignPractice = () => {
 
   const signLabel = 'verde'
 
-  const progressValue = () => {
+  React.useEffect(() => {
+    if (!predictedData || !predictedData.confidence) {
+      setProgress(0)
+
+      return
+    }
+
     if (signLabel in predictedData.confidence) {
       const value = predictedData.confidence[signLabel]
 
-      return Math.round(Number(value))
+      setProgress(Math.round(Number(value)))
     }
-
-    return 0
-  }
-
-  const progress = progressValue()
+  }, [signLabel, predictedData])
 
   console.log('progress', progress)
+
+  if (signQuery.isPending) {
+    return null
+  }
 
   const { color, message, textColor, approval } = getProgress(progress)
 
