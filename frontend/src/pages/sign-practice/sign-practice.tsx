@@ -52,11 +52,11 @@ export const SignPractice = () => {
         {/* Breadcrumb */}
         <div className="flex items-center text-sm mb-6">
           <Link to={ROUTES.DASHBOARD} className="text-gray-400 hover:text-violet-400">
-            Dashboard
+            Inicio
           </Link>
           <ChevronRight className="h-4 w-4 mx-2 text-gray-600" />
           <Link to={ROUTES.BASIC} className="text-gray-400 hover:text-violet-400">
-            Basic
+            Básico
           </Link>
           <ChevronRight className="h-4 w-4 mx-2 text-gray-600" />
           <span className="text-white font-medium">{signData.name}</span>
@@ -82,7 +82,7 @@ export const SignPractice = () => {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2 leading-8">
                 <Play className="h-6 w-6 text-violet-400" />
-                Reference Video
+                Video de Referencia
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -107,7 +107,7 @@ export const SignPractice = () => {
               <div className="flex items-center justify-between">
                 <CardTitle className="text-white flex items-center gap-2 leading-8">
                   <Camera className="h-6 w-6  text-rose-400" />
-                  Your Practice
+                  Tu Práctica
                 </CardTitle>
                 {!isRecording && !countdown && !predictMutation.isPending && cameraPermission && (
                   <Button
@@ -118,7 +118,7 @@ export const SignPractice = () => {
                     className="bg-violet-600 hover:bg-violet-700"
                   >
                     <Play className="h-4 w-4 mr-2" />
-                    Empezar
+                    Iniciar Práctica
                   </Button>
                 )}
               </div>
@@ -131,8 +131,8 @@ export const SignPractice = () => {
                       <Camera className="h-12 w-12 text-gray-500 mx-auto mb-4" />
                       <p className="text-gray-400">
                         {cameraPermission
-                          ? "Click 'Start Practice' to begin"
-                          : 'Camera permission required'}
+                          ? 'Haga clic en "Iniciar práctica" para comenzar.'
+                          : 'Se requiere permiso de la cámara'}
                       </p>
                     </div>
                   </div>
@@ -165,7 +165,7 @@ export const SignPractice = () => {
                 {predictMutation.isPending && (
                   <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center">
                     <Loader2 className="h-12 w-12 text-violet-400 animate-spin mb-4" />
-                    <p className="text-white text-lg">Analyzing your sign...</p>
+                    <p className="text-white text-lg">Analizando tu seña...</p>
                   </div>
                 )}
               </div>
@@ -176,13 +176,13 @@ export const SignPractice = () => {
         {/* Progress Section */}
         <Card className="bg-gray-800 border-gray-700">
           <CardHeader>
-            <CardTitle className="text-white">Performance Score</CardTitle>
+            <CardTitle className="text-white">Puntaje de Desempeño</CardTitle>
           </CardHeader>
           <CardContent>
             {progress !== null ? (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-300">Accuracy</span>
+                  <span className="text-gray-300">Precisión</span>
                   <span className="text-white font-semibold">{progress}%</span>
                 </div>
                 <Progress value={progress} className="h-3">
@@ -206,9 +206,7 @@ export const SignPractice = () => {
               </div>
             ) : (
               <div className="text-center py-8">
-                <p className="text-gray-400">
-                  Complete a practice session to see your performance score
-                </p>
+                <p className="text-gray-400">Completa una práctica para ver tu desempeño</p>
               </div>
             )}
           </CardContent>
