@@ -9,7 +9,7 @@ export const getProgress = (progress: number) => {
   if (progress >= 80) {
     return {
       color: 'bg-green-500',
-      message: 'Excellent! Great job!',
+      message: '¡Excelente! ¡Buen trabajo!',
       textColor: 'text-green-400',
       approval: true,
     }
@@ -18,7 +18,7 @@ export const getProgress = (progress: number) => {
   if (progress >= 60) {
     return {
       color: 'bg-yellow-500',
-      message: 'Good! Keep practicing!',
+      message: '¡Genial! ¡Continúa practicando!',
       textColor: 'text-yellow-400',
       approval: false,
     }
@@ -26,7 +26,7 @@ export const getProgress = (progress: number) => {
 
   return {
     color: 'bg-red-500',
-    message: 'Keep trying! You can do it!',
+    message: '¡No te rindas! ¡Tu puedes lograrlo!',
     textColor: 'text-red-400',
     approval: false,
   }
