@@ -3,9 +3,9 @@
 import * as React from 'react'
 import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-import { useGetCategories, useGetSigns } from 'hooks'
+import { useAuth, useGetCategories, useGetSigns, useSignProgress } from 'hooks'
 import {
   Badge,
   Button,
@@ -22,13 +22,25 @@ export const Basic = () => {
 
   const [expandedCategory, setExpandedCategory] = React.useState<string | null>(null)
 
+  const { user, loading } = useAuth()
+
+  const uid = user?.uid
+
   const categoriesQuery = useGetCategories()
 
   const signsQuery = useGetSigns(expandedCategory)
 
+  const signsProgressQuery = useSignProgress(uid, expandedCategory)
+
   const categoriesData = categoriesQuery.data || []
 
   const signsData = signsQuery.data || []
+
+  const signsProgressData = signsProgressQuery.data || []
+
+  console.log('signsData', signsData)
+
+  console.log('signsProgressData', signsProgressData)
 
   const toggleCategory = (categoryId: string) => {
     setExpandedCategory(expandedCategory === categoryId ? null : categoryId)
@@ -38,7 +50,7 @@ export const Basic = () => {
     navigate(`${ROUTES.BASIC}/${signId}`)
   }
 
-  if (categoriesQuery.isPending) {
+  if (categoriesQuery.isPending || loading) {
     return null
   }
 

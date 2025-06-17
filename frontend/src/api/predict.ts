@@ -8,7 +8,7 @@ export interface PredictRequest {
   uid: string
 }
 
-export async function getPredict(predictRequest: PredictRequest): Promise<PredictResponse> {
+export async function setPredict(predictRequest: PredictRequest): Promise<PredictResponse> {
   const response = await fetch('/predict', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
