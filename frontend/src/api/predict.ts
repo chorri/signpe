@@ -1,12 +1,18 @@
 export interface PredictResponse {
-  confidence: Record<string, number>
+  probability: number
 }
 
-export async function getPredict(frames: string[]): Promise<PredictResponse> {
+export interface PredictRequest {
+  frames: string[]
+  signId: string
+  uid: string
+}
+
+export async function getPredict(predictRequest: PredictRequest): Promise<PredictResponse> {
   const response = await fetch('/predict', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ frames }),
+    body: JSON.stringify(predictRequest),
   })
 
   if (!response.ok) {

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useGetCategories, useGetSigns } from 'hooks'
 import {
@@ -26,6 +26,10 @@ export const Basic = () => {
 
   const signsQuery = useGetSigns(expandedCategory)
 
+  const [searchParams] = useSearchParams()
+
+  const uid = searchParams.get('uid')
+
   const categoriesData = categoriesQuery.data || []
 
   const signsData = signsQuery.data || []
@@ -35,7 +39,7 @@ export const Basic = () => {
   }
 
   const handleSignClick = (signId: string) => {
-    navigate(`${ROUTES.BASIC}/${signId}`)
+    navigate(`${ROUTES.BASIC}/${signId}?uid=${uid}`)
   }
 
   if (categoriesQuery.isPending) {

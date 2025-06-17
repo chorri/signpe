@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { Camera, CheckCircle2, ChevronRight, Loader2, Play } from 'lucide-react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 
 import { useCamera, useGetSign, usePredictSign } from 'hooks'
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Progress } from 'components'
@@ -16,11 +16,15 @@ export const SignPractice = () => {
 
   const signQuery = useGetSign(signId)
 
+  const [searchParams] = useSearchParams()
+
+  const uid = searchParams.get('uid')
+
   const predictMutation = usePredictSign()
 
   const { videoRef, isRecording, countdown, stream, cameraPermission, startCountdown } = useCamera(
     frames => {
-      predictMutation.mutate(frames)
+      predictMutation.mutate({ frames, signId, uid })
     }
   )
 
@@ -29,16 +33,14 @@ export const SignPractice = () => {
   const predictedData = predictMutation.data
 
   React.useEffect(() => {
-    if (!predictedData || !predictedData.confidence || !signData || !signData.label) {
+    if (!predictedData || !predictedData.probability) {
       return
     }
 
-    if (signData.label in predictedData.confidence) {
-      const value = predictedData.confidence[signData.label]
+    const value = predictedData.probability
 
-      setProgress(Math.round(Number(value)))
-    }
-  }, [signData, predictedData])
+    setProgress(Math.round(Number(value)))
+  }, [predictedData])
 
   if (signQuery.isPending) {
     return null

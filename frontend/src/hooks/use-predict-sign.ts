@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
 
-import { getPredict, PredictResponse } from 'api'
+import { getPredict, PredictRequest, PredictResponse } from 'api'
 
 export const usePredictSign = () => {
-  return useMutation<PredictResponse, unknown, string[]>({
+  return useMutation<PredictResponse, unknown, PredictRequest>({
     mutationFn: getPredict,
   })
 }
