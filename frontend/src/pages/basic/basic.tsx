@@ -38,9 +38,14 @@ export const Basic = () => {
 
   const signsProgressData = signsProgressQuery.data || []
 
-  console.log('signsData', signsData)
+  const mergedSign = signsData.map(itemA => {
+    const match = signsProgressData.find(itemB => itemB.signId === itemA.id)
 
-  console.log('signsProgressData', signsProgressData)
+    return {
+      ...itemA,
+      ...(match || {}),
+    }
+  })
 
   const toggleCategory = (categoryId: string) => {
     setExpandedCategory(expandedCategory === categoryId ? null : categoryId)
@@ -131,7 +136,7 @@ export const Basic = () => {
               {/* Expanded Subcategories */}
               {expandedCategory === category.id && (
                 <div className="ml-4 space-y-2 animate-in slide-in-from-top-2 duration-200">
-                  {signsData.map((sign, index) => (
+                  {mergedSign.map((sign, index) => (
                     <Card
                       key={sign.id}
                       onClick={() => handleSignClick(sign.id)}
@@ -141,7 +146,7 @@ export const Basic = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="flex items-center justify-center w-8 h-8">
-                              {false ? (
+                              {sign.progress > 80 ? (
                                 <CheckCircle2 className="h-6 w-6 text-green-500" />
                               ) : (
                                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-700 text-gray-300 text-sm font-medium">
@@ -155,10 +160,10 @@ export const Basic = () => {
                                 <div className="w-32 bg-gray-700 rounded-full h-1.5">
                                   <div
                                     className="bg-violet-600 h-1.5 rounded-full transition-all duration-300"
-                                    style={{ width: `${0}%` }}
+                                    style={{ width: `${sign.progress}}%` }}
                                   ></div>
                                 </div>
-                                <span className="text-xs text-gray-400">0%</span>
+                                <span className="text-xs text-gray-400">{sign.progress}</span>
                               </div>
                             </div>
                           </div>
