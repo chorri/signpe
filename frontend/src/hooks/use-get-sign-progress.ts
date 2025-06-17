@@ -4,7 +4,7 @@ import { getSignProgress, SignInterface, SignScoreInterface } from 'api'
 
 export const useSignProgress = (uid: string, categoryId: SignInterface['id']) => {
   return useQuery<SignScoreInterface[]>({
-    queryKey: ['signs', categoryId],
+    queryKey: ['predict-signs', uid, categoryId],
     queryFn: () => getSignProgress(uid, categoryId),
     enabled: !!categoryId && !!uid,
   })
