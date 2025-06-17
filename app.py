@@ -56,7 +56,7 @@ hands = mp_hands.Hands(static_image_mode=True, max_num_hands=2)
 
 
 
-def add_category_with_signs(custom_category_id, category_name, category_description, category_icon, signs):
+def add_category_with_signs(custom_category_id, category_name, category_description, category_icon, level_id, signs):
     category_ref = db.collection("categories").document(custom_category_id)
     
     # Step 1: Set or update the category
@@ -64,7 +64,8 @@ def add_category_with_signs(custom_category_id, category_name, category_descript
         "name": category_name,
         "description": category_description,
         "signCount": len(signs),
-        "icon": category_icon
+        "icon": category_icon,
+        "levelId" : level_id
     }, merge=True)
 
     # Step 2: Collect current sign IDs in Firestore for this category
@@ -101,25 +102,25 @@ def add_category_with_signs(custom_category_id, category_name, category_descript
 
 
 def create_all_categories():
-    categoria_id = add_category_with_signs("categoryId01", "Alfabeto", "Aprende el abecedario en LSP y mejora tu habilidad para deletrear con señas.","hand", [
-    {"id": "signId001", "name": "Letra A", "label":"a", "videoRef": "4Pmnh4tRwuk"},
-    {"id": "signId002", "name": "Letra B", "label":"b", "videoRef": "qG1CQFiHX6c"},
-    {"id": "signId003", "name": "Letra C", "label":"c", "videoRef": "youtube.com"},
-    {"id": "signId004", "name": "Letra D", "label":"d", "videoRef": "youtube.com"},
+    categoria_id = add_category_with_signs("categoryId01", "Alfabeto", "Aprende el abecedario en LSP y mejora tu habilidad para deletrear con señas.","hand", "levelId01", [
+    {"id": "signId001", "name": "Letra A", "label":"a", "videoRef": "YKgCa1dwItA"},
+    {"id": "signId002", "name": "Letra B", "label":"b", "videoRef": "nl5ghpTg5ec"},
+    {"id": "signId003", "name": "Letra C", "label":"c", "videoRef": "H-anKSubm-w"},
+    {"id": "signId004", "name": "Letra D", "label":"d", "videoRef": "r_Gs_Jbdl9E"},
     {"id": "signId005", "name": "Letra E", "label":"e", "videoRef": "youtube.com"},
     {"id": "signId006", "name": "Letra F", "label":"f", "videoRef": "youtube.com"}
     ])
     print(f"Categoría creada con ID: {categoria_id}")
-    categoria_id = add_category_with_signs("categoryId02", "Colores", "Identifica y aprende los colores básicos para describir el mundo que te rodea.","palette", [
-    {"id": "signId007", "name": "Verde", "label":"verde", "videoRef": "youtube.com"},
-    {"id": "signId008", "name": "Rojo", "label":"rojo", "videoRef": "youtube.com"},
-    {"id": "signId009", "name": "Amarillo", "label":"amarillo", "videoRef": "youtube.com"},
-    {"id": "signId010", "name": "Blanco", "label":"blanco", "videoRef": "youtube.com"},
-    {"id": "signId011", "name": "Negro", "label":"negro", "videoRef": "youtube.com"},
-    {"id": "signId012", "name": "Azul", "label":"azul", "videoRef": "youtube.com"}
+    categoria_id = add_category_with_signs("categoryId02", "Colores", "Identifica y aprende los colores básicos para describir el mundo que te rodea.","palette", "levelId01", [
+    {"id": "signId007", "name": "Verde", "label":"verde", "videoRef": "KmUUdxL4W7U"},
+    {"id": "signId008", "name": "Rojo", "label":"rojo", "videoRef": "PUx8iIfwvDU"},
+    {"id": "signId009", "name": "Amarillo", "label":"amarillo", "videoRef": "y1_EkCMMlhM"},
+    {"id": "signId010", "name": "Blanco", "label":"blanco", "videoRef": "1s4aYoAodlc"},
+    {"id": "signId011", "name": "Negro", "label":"negro", "videoRef": "60TK3s9V0nY"},
+    {"id": "signId012", "name": "Azul", "label":"azul", "videoRef": "VC0csxuR34Q"}
     ])
     print(f"Categoría creada con ID: {categoria_id}")
-    categoria_id = add_category_with_signs("categoryId03", "Familia", "Identifica y aprende los colores básicos para describir el mundo que te rodea.","palette", [
+    categoria_id = add_category_with_signs("categoryId03", "Familia", "Identifica y aprende los colores básicos para describir el mundo que te rodea.","palette", "levelId01", [
     ])
     print(f"Categoría creada con ID: {categoria_id}")
     
@@ -186,15 +187,71 @@ def predict():
         print(f"Prediction error: {e}")
         return jsonify({'error':'Prediction Failed'}),500
     
-    predicted_index = int(np.argmax(prediction))
-    predicted_label = labels.get(str(predicted_index),'Desconocido')
-    confidence = {labels[str(i)]: float(round(prediction[i] * 100, 2)) for i in range(len(prediction))}
 
-    db.collection('predictions').add({
-    'label': predicted_label,
-    'confidence': confidence,
-    'timestamp': firestore.SERVER_TIMESTAMP
-    })
+    predicted_index = int(np.argmax(prediction))
+    
+    UID_TEMP = data.get('uid')
+    sign_ID = data.get('signId')
+    sign_doc = db.collection('signs').document(sign_ID).get()
+    current_sign_label = sign_doc.to_dict().get("label") # verde
+    category_ID = sign_doc.to_dict().get("categoryId")
+
+    reverse_label_map = {v: int(k) for k, v in labels.items()} #reverse labels to seach index by label
+    target_index = reverse_label_map[current_sign_label]    
+    probability = float(round(prediction[target_index] * 100, 2))
+    
+    result = {
+        "probability": probability
+    }
+    
+    sign_progress_probability = 0
+    signProgress_query = (
+        db.collection("signProgress")
+        .where("uid", "==", UID_TEMP)
+        .where("signId", "==", sign_ID)
+        .limit(1)  # Limit to 1 since we expect only one result
+    ).stream()
+    sign_progress_item = next(signProgress_query,None)
+    if sign_progress_item is not None and sign_progress_item.exists:
+        sign_progress_probability = sign_progress_item.to_dict().get("progress")
+        signProgress_doc = db.collection("signProgress").document(sign_progress_item.id)
+    else:
+        signProgress_doc = db.collection("signProgress").document()
+    
+    if sign_progress_probability > probability:
+        return jsonify(result)
+    
+    
+    signProgress_doc.set({
+            "progress": probability,
+            "signId": sign_ID,
+            "uid": UID_TEMP,
+            "categoryId": category_ID
+        }, merge=True)
+    
+    if probability < 0.80:#PASAR LUEGO A BASE DE DATOS PARA NO CODIGO DURO
+        return jsonify(result)
+
+    
+    
+        
+
+
+    #if current_sign_score > target_probability:
+        
+    
+
+
+    #label_confidence = float(round(prediction[i] * 100, 2))
+
+    #predicted_label = labels.get(str(predicted_index),'Desconocido')
+    #confidence = {labels[str(i)]: float(round(prediction[i] * 100, 2)) for i in range(len(prediction))}
+
+    #db.collection('predictions').add({
+    #'label': predicted_label,
+    #'confidence': confidence,
+    #'timestamp': firestore.SERVER_TIMESTAMP
+    #})
 
     #result = {
     #    labels[str(i)]: float(f"{p*100:.2f}") for i, p in enumerate(prediction)
@@ -202,15 +259,37 @@ def predict():
     
     #print("prediction ",prediction)
 
-    return jsonify({
-        'label': predicted_label,
-        'confidence': confidence
-    })
+    return jsonify(result)
+
+@app.route('/get-sign-progress', methods=['GET'])
+def get_sign_progress():
+    uid = request.args.get('uid')
+    category_id = request.args.get('categoryId')
+
+    signProgress_query = (
+        db.collection("signProgress")
+        .where("uid", "==", uid)
+        .where("categoryId", "==", category_id)
+    ).stream()
+
+    results = []
+
+    for doc in signProgress_query:
+        doc_data = doc.to_dict()
+        results.append({
+            "signId": doc_data.get("signId"),
+            "progress": doc_data.get("progress")
+        })
+
+    #print(results)
+    return jsonify(results)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
     #app.run(debug=True, host='127.0.0.1', port=5000)
-
-    # create_all_categories()
+    
+    #create_all_categories()
+    
+    
 

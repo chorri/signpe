@@ -43,7 +43,7 @@ export const Basic = () => {
 
     return {
       ...itemA,
-      ...(match || {}),
+      progress: match ? match.progress : 0,
     }
   })
 
@@ -146,7 +146,7 @@ export const Basic = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="flex items-center justify-center w-8 h-8">
-                              {sign.progress > 80 ? (
+                              {sign.progress >= 80 ? (
                                 <CheckCircle2 className="h-6 w-6 text-green-500" />
                               ) : (
                                 <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-700 text-gray-300 text-sm font-medium">
@@ -160,10 +160,12 @@ export const Basic = () => {
                                 <div className="w-32 bg-gray-700 rounded-full h-1.5">
                                   <div
                                     className="bg-violet-600 h-1.5 rounded-full transition-all duration-300"
-                                    style={{ width: `${sign.progress}}%` }}
+                                    style={{ width: `${Math.round(sign.progress)}%` }}
                                   ></div>
                                 </div>
-                                <span className="text-xs text-gray-400">{sign.progress}</span>
+                                <span className="text-xs text-gray-400">
+                                  {Math.round(sign.progress)}%
+                                </span>
                               </div>
                             </div>
                           </div>
