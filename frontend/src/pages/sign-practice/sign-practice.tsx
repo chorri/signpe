@@ -2,9 +2,9 @@
 
 import * as React from 'react'
 import { Camera, CheckCircle2, ChevronRight, Loader2, Play } from 'lucide-react'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
-import { useCamera, useGetSign, usePredictSign } from 'hooks'
+import { useAuth, useCamera, useGetSign, usePredictSign } from 'hooks'
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Progress } from 'components'
 import { ROUTES } from 'lib/constants'
 import { getProgress } from 'lib/utils'
@@ -16,9 +16,9 @@ export const SignPractice = () => {
 
   const signQuery = useGetSign(signId)
 
-  const [searchParams] = useSearchParams()
+  const { user, loading } = useAuth()
 
-  const uid = searchParams.get('uid')
+  const uid = user?.uid
 
   const predictMutation = usePredictSign()
 
@@ -42,7 +42,7 @@ export const SignPractice = () => {
     setProgress(Math.round(Number(value)))
   }, [predictedData])
 
-  if (signQuery.isPending) {
+  if (signQuery.isPending || loading) {
     return null
   }
 

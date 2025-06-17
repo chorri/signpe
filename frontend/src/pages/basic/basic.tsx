@@ -26,10 +26,6 @@ export const Basic = () => {
 
   const signsQuery = useGetSigns(expandedCategory)
 
-  const [searchParams] = useSearchParams()
-
-  const uid = searchParams.get('uid')
-
   const categoriesData = categoriesQuery.data || []
 
   const signsData = signsQuery.data || []
@@ -39,7 +35,7 @@ export const Basic = () => {
   }
 
   const handleSignClick = (signId: string) => {
-    navigate(`${ROUTES.BASIC}/${signId}?uid=${uid}`)
+    navigate(`${ROUTES.BASIC}/${signId}`)
   }
 
   if (categoriesQuery.isPending) {

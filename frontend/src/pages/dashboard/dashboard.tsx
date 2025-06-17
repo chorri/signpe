@@ -1,7 +1,6 @@
 import { BookOpen, Clock, Lock, Play, Star, Trophy } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAuth } from 'hooks'
 import {
   Badge,
   Button,
@@ -73,18 +72,12 @@ const courseData = [
 export const Dashboard = () => {
   const navigate = useNavigate()
 
-  const { user, loading } = useAuth()
-
   const navigateTo = (id: number) => {
     const course = courseData.find(course => course.id === id)
 
     if (course && course.available) {
-      navigate(`${course.to}?uid=${user?.uid}`)
+      navigate(course.to)
     }
-  }
-
-  if (loading) {
-    return null
   }
 
   return (
