@@ -187,8 +187,6 @@ def predict():
         print(f"Prediction error: {e}")
         return jsonify({'error':'Prediction Failed'}),500
     
-
-    predicted_index = int(np.argmax(prediction))
     
     UID_TEMP = data.get('uid')
     sign_ID = data.get('signId')
@@ -212,6 +210,7 @@ def predict():
         .limit(1)  # Limit to 1 since we expect only one result
     ).stream()
     sign_progress_item = next(signProgress_query,None)
+    
     if sign_progress_item is not None and sign_progress_item.exists:
         sign_progress_probability = sign_progress_item.to_dict().get("progress")
         signProgress_doc = db.collection("signProgress").document(sign_progress_item.id)
@@ -261,8 +260,8 @@ def predict():
 
     return jsonify(result)
 
-@app.route('/get-sign-progress', methods=['GET'])
-def get_sign_progress():
+@app.route('/get-signs', methods=['GET'])
+def get_signs():
     uid = request.args.get('uid')
     category_id = request.args.get('categoryId')
 
@@ -272,17 +271,28 @@ def get_sign_progress():
         .where("categoryId", "==", category_id)
     ).stream()
 
-    results = []
+    sign_query = (
+        db.collection("signs")
+        .where("categoryId", "==", category_id)
+    ).stream()
 
+    progress_map = {}
     for doc in signProgress_query:
-        doc_data = doc.to_dict()
-        results.append({
-            "signId": doc_data.get("signId"),
-            "progress": doc_data.get("progress")
-        })
+        data = doc.to_dict()
+        sign_id = data.get("signId")
+        progress_map[sign_id] = data.get("progress")
 
-    #print(results)
-    return jsonify(results)
+    # Step 2: Merge sign data with progress (if available)
+    merged_results = []
+    for doc in sign_query:
+        sign_data = doc.to_dict()
+        sign_id = doc.id
+        
+        # Inject progress if found
+        sign_data["progress"] = progress_map.get(sign_id, 0)
+        merged_results.append(sign_data)
+
+    return jsonify(merged_results)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
@@ -290,6 +300,8 @@ if __name__ == '__main__':
     #app.run(debug=True, host='127.0.0.1', port=5000)
     
     #create_all_categories()
+
+    #get_sign_progress()
     
     
 
