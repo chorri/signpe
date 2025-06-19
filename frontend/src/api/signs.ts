@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 
 import { db } from 'lib/firebase'
 
@@ -8,26 +8,11 @@ export interface SignInterface {
   label: string
   categoryId: string
   videoRef: string
+  progress: number
 }
 
 export interface SignWithCategoryName extends SignInterface {
   categoryName?: string
-}
-
-export interface SignScoreInterface {
-  signId: string
-  progress: number
-}
-
-export async function getSigns(categoryId: SignInterface['categoryId']): Promise<SignInterface[]> {
-  const signsQuery = query(collection(db, 'signs'), where('categoryId', '==', categoryId))
-
-  const signsDocs = await getDocs(signsQuery)
-
-  return signsDocs.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as SignInterface[]
 }
 
 export async function getSign(uid: SignInterface['id']): Promise<SignWithCategoryName | null> {
@@ -46,16 +31,16 @@ export async function getSign(uid: SignInterface['id']): Promise<SignWithCategor
   } as SignWithCategoryName
 }
 
-export async function getSignProgress(
-  uid: string,
+export async function getSigns(
+  uid: SignInterface['id'],
   categoryId: SignInterface['categoryId']
-): Promise<SignScoreInterface[]> {
+): Promise<SignInterface[]> {
   const params = new URLSearchParams({
     uid,
     categoryId,
   })
 
-  const response = await fetch(`/get-sign-progress?${params.toString()}`, {
+  const response = await fetch(`/get-signs?${params.toString()}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })
@@ -64,5 +49,5 @@ export async function getSignProgress(
     throw new Error('Failed to fetch prediction result')
   }
 
-  return response.json() as Promise<SignScoreInterface[]>
+  return response.json() as Promise<SignInterface[]>
 }

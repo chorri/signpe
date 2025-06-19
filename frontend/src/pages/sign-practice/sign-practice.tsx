@@ -33,7 +33,7 @@ export const SignPractice = () => {
   const predictedData = predictMutation.data
 
   React.useEffect(() => {
-    if (!predictedData || !predictedData.probability) {
+    if (!predictedData || typeof predictedData.probability !== 'number') {
       return
     }
 

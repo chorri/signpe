@@ -290,9 +290,22 @@ def get_signs():
         
         # Inject progress if found
         sign_data["progress"] = progress_map.get(sign_id, 0)
-        merged_results.append(sign_data)
+        merged_results.append({**sign_data, "id": sign_id})
+
 
     return jsonify(merged_results)
+
+@app.route('/get-categories', methods=['GET'])
+def get_categories():
+    
+
+    return 0
+
+@app.route('/get-levels', methods=['GET'])
+def get_levels():
+    
+
+    return 0
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))

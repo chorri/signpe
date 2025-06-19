@@ -5,7 +5,7 @@ import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { useAuth, useGetCategories, useGetSigns, useSignProgress } from 'hooks'
+import { useAuth, useGetCategories, useGetSigns } from 'hooks'
 import {
   Badge,
   Button,
@@ -28,24 +28,11 @@ export const Basic = () => {
 
   const categoriesQuery = useGetCategories()
 
-  const signsQuery = useGetSigns(expandedCategory)
-
-  const signsProgressQuery = useSignProgress(uid, expandedCategory)
+  const signsQuery = useGetSigns(uid, expandedCategory)
 
   const categoriesData = categoriesQuery.data || []
 
   const signsData = signsQuery.data || []
-
-  const signsProgressData = signsProgressQuery.data || []
-
-  const mergedSign = signsData.map(itemA => {
-    const match = signsProgressData.find(itemB => itemB.signId === itemA.id)
-
-    return {
-      ...itemA,
-      progress: match ? match.progress : 0,
-    }
-  })
 
   const toggleCategory = (categoryId: string) => {
     setExpandedCategory(expandedCategory === categoryId ? null : categoryId)
@@ -136,7 +123,7 @@ export const Basic = () => {
               {/* Expanded Subcategories */}
               {expandedCategory === category.id && (
                 <div className="ml-4 space-y-2 animate-in slide-in-from-top-2 duration-200">
-                  {mergedSign.map((sign, index) => (
+                  {signsData.map((sign, index) => (
                     <Card
                       key={sign.id}
                       onClick={() => handleSignClick(sign.id)}
