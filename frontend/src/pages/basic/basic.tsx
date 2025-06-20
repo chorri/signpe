@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuth, useGetCategories, useGetSigns } from 'hooks'
 import {
@@ -20,13 +20,17 @@ import { ROUTES } from 'lib/constants'
 export const Basic = () => {
   const navigate = useNavigate()
 
+  const location = useLocation()
+
+  const currentRoute = location.pathname.slice(1)
+
   const [expandedCategory, setExpandedCategory] = React.useState<string | null>(null)
 
   const { user, loading } = useAuth()
 
   const uid = user?.uid
 
-  const categoriesQuery = useGetCategories()
+  const categoriesQuery = useGetCategories(uid, currentRoute)
 
   const signsQuery = useGetSigns(uid, expandedCategory)
 
@@ -107,7 +111,7 @@ export const Basic = () => {
                               : 'border-rose-600 text-rose-400'
                           }`}
                         >
-                          {`Completado 0/${category.signCount} Señas`}
+                          {`Completado ${category.progress}/${category.signCount} Señas`}
                         </Badge>
                       </div>
                       <ChevronDown

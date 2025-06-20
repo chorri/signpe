@@ -2,11 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 
 import { CategoryInterface, getCategories } from 'api'
 
-export const useGetCategories = () => {
+export const useGetCategories = (uid: string, levelId: CategoryInterface['levelId']) => {
   return useQuery<CategoryInterface[]>({
-    queryKey: ['categories'],
-    queryFn: () => {
-      return getCategories()
-    },
+    queryKey: ['categories', uid, levelId],
+    queryFn: () => getCategories(uid, levelId),
+    enabled: !!levelId && !!uid,
   })
 }

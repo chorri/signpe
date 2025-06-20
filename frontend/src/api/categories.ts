@@ -1,20 +1,30 @@
-import { collection, getDocs } from 'firebase/firestore'
-
-import { db } from 'lib/firebase'
-
 export interface CategoryInterface {
   id: string
   name: string
   description: string
   icon: string
   signCount: number
+  levelId: string
+  progress: number
 }
 
-export async function getCategories(): Promise<CategoryInterface[]> {
-  const categoriesDocs = await getDocs(collection(db, 'categories'))
+export async function getCategories(
+  uid: CategoryInterface['id'],
+  levelId: CategoryInterface['levelId']
+): Promise<CategoryInterface[]> {
+  const params = new URLSearchParams({
+    uid,
+    levelId,
+  })
 
-  return categoriesDocs.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as CategoryInterface[]
+  const response = await fetch(`/get-categories?${params.toString()}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch prediction result')
+  }
+
+  return response.json() as Promise<CategoryInterface[]>
 }
