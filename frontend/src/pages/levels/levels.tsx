@@ -17,7 +17,7 @@ import {
 } from 'components'
 import { ROUTES } from 'lib/constants'
 
-export const Basic = () => {
+export const Levels = () => {
   const navigate = useNavigate()
 
   const location = useLocation()

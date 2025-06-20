@@ -1,5 +1,6 @@
 export * from './categories'
 export * from './google-login'
+export * from './levels'
 export * from './login'
 export * from './logout'
 export * from './predict'
