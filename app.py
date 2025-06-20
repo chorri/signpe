@@ -100,6 +100,38 @@ def add_category_with_signs(custom_category_id, category_name, category_descript
 
     return custom_category_id
 
+def add_level(custom_level_id, title, description, difficulty, lessons_count, duration, icon, href):
+    level_ref = db.collection("levels").document(custom_level_id)
+
+    level_ref.set({
+        "title": title,
+        "description": description,
+        "difficulty": difficulty,      # This is just a label like "Beginner"
+        "lessons": lessons_count,  # This is a number, e.g., 5
+        "duration": duration,
+        "icon": icon,
+        "href": href
+    }, merge=True)
+
+    return custom_level_id
+
+
+def create_all_levels():
+    level_id = add_level("levelId01","Nivel Básico","Aprende señas básicas del lenguaje de señas y aprende el alfabeto dactilológico",
+                         "Básico",20,"0 horas","🌟","basic")
+    print(f"Nivel creado con ID: {level_id}")
+
+    level_id = add_level("levelId02","Nivel Intermedio","Enriquece tu vocabulario con palabras y frases comunes para usar en el día a día",
+                         "Intermedio",24,"0 horas","📚","")
+    print(f"Nivel creado con ID: {level_id}")
+
+    level_id = add_level("levelId03","Nivel Avanzado","Refuerza tus habilidades para construir oraciones complejas y comunicarte con mayor precisión",
+                         "Avanzado",20,"0 horas","💬","")
+    print(f"Nivel creado con ID: {level_id}")
+
+    level_id = add_level("levelId04","Nivel Experto","Perfecciona tu conocimiento para interpretar conversaciones a tiempo real y participar en presentaciones formales",
+                         "Experto",20,"0 horas","🎓","")
+    print(f"Nivel creado con ID: {level_id}")
 
 def create_all_categories():
     categoria_id = add_category_with_signs("categoryId01", "Alfabeto", "Aprende el abecedario en LSP y mejora tu habilidad para deletrear con señas.","hand", "levelId01", [
@@ -204,12 +236,11 @@ def predict():
     
     sign_progress_probability = 0
     signProgress_query = (
-        db.collection("signProgress")
-        .where("uid", "==", UID_TEMP)
-        .where("signId", "==", sign_ID)
-        .limit(1)  # Limit to 1 since we expect only one result
-    ).stream()
-    sign_progress_item = next(signProgress_query,None)
+    db.collection("signProgress")
+    .where("uid", "==", UID_TEMP)
+    .where("categoryId","==",category_ID)
+    )
+    sign_progress_item = next((doc for doc in signProgress_query.stream()if doc.get("signId") == sign_ID), None)
     
     if sign_progress_item is not None and sign_progress_item.exists:
         sign_progress_probability = sign_progress_item.to_dict().get("progress")
@@ -228,35 +259,81 @@ def predict():
             "categoryId": category_ID
         }, merge=True)
     
-    if probability < 0.80:#PASAR LUEGO A BASE DE DATOS PARA NO CODIGO DURO
+    if probability < 0.80 or sign_progress_probability >= 80:#PASAR LUEGO A BASE DE DATOS PARA NO CODIGO DURO
         return jsonify(result)
 
     
+    # CATEGORY PROGRESS 
+    category_progress_count = sum(
+    1 for doc in signProgress_query.stream()
+    if "progress" in doc.to_dict() and doc.to_dict()["progress"] >= 80)
+
     
-        
+    category_doc = db.collection('categories').document(category_ID).get()
+    level_ID = category_doc.to_dict().get("levelId")
 
+    category_progress_query = (
+    db.collection("categoryProgress")
+    .where("levelId", "==", level_ID)
+    .where("uid", "==", UID_TEMP)
+    ).stream()
 
-    #if current_sign_score > target_probability:
-        
+    category_progress_doc = next((doc for doc in category_progress_query.stream()if doc.get("categoryId") == category_ID), None)
+    #category_progress_doc = next(category_progress_query, None)
+
+    if category_progress_doc:
+        doc_ref = db.collection("categoryProgress").document(category_progress_doc.id)
+    else:
+        doc_ref = db.collection("categoryProgress").document()
     
 
+    doc_ref.set({
+    "categoryId": category_ID,
+    "levelId": level_ID,
+    "progress": category_progress_count,
+    "uid": UID_TEMP
+    }, merge=True)
 
-    #label_confidence = float(round(prediction[i] * 100, 2))
+    # LEVEL PROGRESS
 
-    #predicted_label = labels.get(str(predicted_index),'Desconocido')
-    #confidence = {labels[str(i)]: float(round(prediction[i] * 100, 2)) for i in range(len(prediction))}
+    total_progress = 0
+    for doc in category_progress_query:
+        data = doc.to_dict()
+        progress = data.get("progress", 0)
+        total_progress += progress
 
-    #db.collection('predictions').add({
-    #'label': predicted_label,
-    #'confidence': confidence,
-    #'timestamp': firestore.SERVER_TIMESTAMP
-    #})
+    level_progress_ref = (
+        db.collection("levelProgress")
+        .where("levelId", "==", level_ID)
+        .where("uid", "==", UID_TEMP)
+        .limit(1)
+    ).get()
 
-    #result = {
-    #    labels[str(i)]: float(f"{p*100:.2f}") for i, p in enumerate(prediction)
-    #}
+    if level_progress_ref:
+        # Document exists; update it
+        doc_snapshot = level_progress_ref[0]
+        existing_data = doc_snapshot.to_dict()
+        doc_id = doc_snapshot.id
+
+        # Preserve 'available' value if it exists
+        updated_data = {
+            "progress": total_progress,
+            "levelId": level_ID,
+            "uid": UID_TEMP,
+            "available": existing_data.get("available", False)
+        }
+
+        db.collection("levelProgress").document(doc_id).set(updated_data, merge=True)
+    else:
+        # Create new document if not found
+        db.collection("levelProgress").add({
+            "progress": total_progress,
+            "levelId": level_ID,
+            "uid": UID_TEMP,
+            "available": True  # default if none exists
+        })
+
     
-    #print("prediction ",prediction)
 
     return jsonify(result)
 
@@ -297,15 +374,76 @@ def get_signs():
 
 @app.route('/get-categories', methods=['GET'])
 def get_categories():
-    
+    uid = request.args.get('uid')
+    level_id = request.args.get('levelId')
 
-    return 0
+    categoryProgress_query = (
+        db.collection("categoryProgress")
+        .where("uid", "==", uid)
+    ).stream()
+
+    category_query = (
+        db.collection("categories")
+        .where("levelId", "==", level_id)
+    ).stream()
+    
+    progress_map = {}
+    for doc in categoryProgress_query:
+        data = doc.to_dict()
+        category_id = data.get("categoryId")
+        progress_map[category_id] = data.get("progress")
+
+    merged_results = []
+    for doc in category_query:
+        category_data = doc.to_dict()
+        category_id = doc.id
+        
+        # Inject progress if found
+        category_data["progress"] = progress_map.get(category_id, 0)
+        merged_results.append({**category_data, "id": category_id})
+
+    return jsonify(merged_results)
 
 @app.route('/get-levels', methods=['GET'])
 def get_levels():
+    uid = "p305DPCAvFOxLtUVo86JErnpbD33"#request.args.get('uid')
     
+    levelProgress_query = (
+        db.collection("levelProgress")
+        .where("uid", "==", uid)
+    ).stream()
 
-    return 0
+    level_query = (
+        db.collection("levels")
+    ).stream()
+
+    progress_map = {}
+    for doc in levelProgress_query:
+        data = doc.to_dict()
+        level_id = data.get("levelId")
+        progress_map[level_id] = {
+            "progress": data.get("progress", 0),
+            "available": data.get("available", False)
+        }
+
+    merged_results = []
+    for doc in level_query:
+        level_data = doc.to_dict()
+        level_id = doc.id
+        
+        # Inject progress if found
+        progress = progress_map.get(level_id, {}).get("progress", 0)
+        available = progress_map.get(level_id, {}).get("available", False)
+        merged_results.append({
+            **level_data,
+            "id": level_id,
+            "progress": progress,
+            "available": available
+        })
+
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
+    print(merged_results)
+    return jsonify(merged_results)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
@@ -315,6 +453,7 @@ if __name__ == '__main__':
     #create_all_categories()
 
     #get_sign_progress()
-    
-    
+    #get_categories()
 
+    #create_all_levels()
+    #get_levels()
