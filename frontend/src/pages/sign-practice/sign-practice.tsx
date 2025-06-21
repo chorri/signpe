@@ -193,9 +193,9 @@ export const SignPractice = () => {
                   <span className="text-gray-300">Precisión</span>
                   <span className="text-white font-semibold">{progress}%</span>
                 </div>
-                <Progress value={progress} className="h-3">
+                <Progress value={progress} className="h-3" color={color}>
                   <div
-                    className={`h-full rounded-full transition-all duration-500 ${color}`}
+                    className={`bg-green-600 h-full rounded-full transition-all duration-500`}
                     style={{ width: `${progress}%` }}
                   />
                 </Progress>
@@ -205,8 +205,13 @@ export const SignPractice = () => {
                 </div>
                 {approval && (
                   <div className="mt-4">
-                    <Button onClick={goBack} className="bg-green-600 hover:bg-green-700">
-                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                    <Button onClick={goBack} className="bg-green-700 hover:bg-green-800">
+                      <CheckCircle2
+                        style={{
+                          width: 'auto',
+                          height: '20px',
+                        }}
+                      />
                       Terminar Práctica
                     </Button>
                   </div>
