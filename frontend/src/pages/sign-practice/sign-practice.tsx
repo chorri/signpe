@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { Camera, CheckCircle2, ChevronRight, Loader2, Play } from 'lucide-react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { useAuth, useCamera, useGetSign, usePredictSign } from 'hooks'
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Progress } from 'components'
@@ -12,7 +12,7 @@ import { getProgress } from 'lib/utils'
 export const SignPractice = () => {
   const { signId } = useParams()
 
-  const [progress, setProgress] = React.useState<number | null>(null)
+  const navigate = useNavigate()
 
   const signQuery = useGetSign(signId)
 
@@ -21,6 +21,8 @@ export const SignPractice = () => {
   const uid = user?.uid
 
   const predictMutation = usePredictSign()
+
+  const [progress, setProgress] = React.useState<number | null>(null)
 
   const { videoRef, isRecording, countdown, stream, cameraPermission, startCountdown } = useCamera(
     frames => {
@@ -31,6 +33,10 @@ export const SignPractice = () => {
   const signData = signQuery.data
 
   const predictedData = predictMutation.data
+
+  const goBack = () => {
+    navigate(-1)
+  }
 
   React.useEffect(() => {
     if (!predictedData || typeof predictedData.probability !== 'number') {
@@ -57,9 +63,9 @@ export const SignPractice = () => {
             Inicio
           </Link>
           <ChevronRight className="h-4 w-4 mx-2 text-gray-600" />
-          <Link to={ROUTES.BASIC} className="text-gray-400 hover:text-violet-400">
+          <button onClick={goBack} className="cursor-pointer text-gray-400 hover:text-violet-400">
             Básico
-          </Link>
+          </button>
           <ChevronRight className="h-4 w-4 mx-2 text-gray-600" />
           <span className="text-white font-medium">{signData.name}</span>
         </div>
@@ -199,7 +205,7 @@ export const SignPractice = () => {
                 </div>
                 {approval && (
                   <div className="mt-4">
-                    <Button className="bg-green-600 hover:bg-green-700">
+                    <Button onClick={goBack} className="bg-green-600 hover:bg-green-700">
                       <CheckCircle2 className="h-4 w-4 mr-2" />
                       Terminar Práctica
                     </Button>

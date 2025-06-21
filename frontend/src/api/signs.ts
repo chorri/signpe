@@ -1,5 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore'
 
+import { API_ROOT } from 'lib/constants'
 import { db } from 'lib/firebase'
 
 export interface SignInterface {
@@ -40,7 +41,7 @@ export async function getSigns(
     categoryId,
   })
 
-  const response = await fetch(`/get-signs?${params.toString()}`, {
+  const response = await fetch(`${API_ROOT}get-signs?${params.toString()}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })

@@ -48,8 +48,8 @@ function App() {
             />
             <Route element={<MainLayout />}>
               <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-              <Route path={':/levelId'} element={<Levels />} />
-              <Route path={`${ROUTES.BASIC}/:signId`} element={<SignPractice />} />
+              <Route path=":levelId" element={<Levels />} />
+              <Route path=":levelId/:signId" element={<SignPractice />} />
             </Route>
           </Routes>
         </Router>

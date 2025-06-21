@@ -1,3 +1,5 @@
+import { API_ROOT } from 'lib/constants'
+
 export interface LevelsInterface {
   id: string
   title: string
@@ -16,7 +18,7 @@ export async function getLevels(uid: LevelsInterface['id']): Promise<LevelsInter
     uid,
   })
 
-  const response = await fetch(`/get-levels?${params.toString()}`, {
+  const response = await fetch(`${API_ROOT}get-levels?${params.toString()}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })

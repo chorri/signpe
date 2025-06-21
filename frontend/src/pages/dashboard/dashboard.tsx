@@ -27,7 +27,9 @@ export const Dashboard = () => {
     const level = levelsData.find(level => level.id === id)
 
     if (level && level.available) {
-      navigate(level.href)
+      navigate(`/${level.href}`, {
+        state: { levelId: id },
+      })
     }
   }
 

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useAuth, useGetCategories, useGetSigns } from 'hooks'
 import {
@@ -20,9 +20,23 @@ import { ROUTES } from 'lib/constants'
 export const Levels = () => {
   const navigate = useNavigate()
 
-  const location = useLocation()
+  const { levelId: levelHref } = useParams()
 
-  const currentRoute = location.pathname.slice(1)
+  const locationState = useLocation()?.state as { levelId: string }
+
+  React.useEffect(() => {
+    if (!locationState) {
+      navigate(ROUTES.DASHBOARD)
+
+      return
+    }
+  }, [locationState])
+
+  if (!locationState) {
+    return null
+  }
+
+  const { levelId } = locationState
 
   const [expandedCategory, setExpandedCategory] = React.useState<string | null>(null)
 
@@ -30,7 +44,7 @@ export const Levels = () => {
 
   const uid = user?.uid
 
-  const categoriesQuery = useGetCategories(uid, currentRoute)
+  const categoriesQuery = useGetCategories(uid, levelId)
 
   const signsQuery = useGetSigns(uid, expandedCategory)
 
@@ -43,7 +57,7 @@ export const Levels = () => {
   }
 
   const handleSignClick = (signId: string) => {
-    navigate(`${ROUTES.BASIC}/${signId}`)
+    navigate(`/${levelHref}/${signId}`)
   }
 
   if (categoriesQuery.isPending || loading) {

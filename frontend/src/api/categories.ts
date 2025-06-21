@@ -1,3 +1,5 @@
+import { API_ROOT } from 'lib/constants'
+
 export interface CategoryInterface {
   id: string
   name: string
@@ -17,7 +19,7 @@ export async function getCategories(
     levelId,
   })
 
-  const response = await fetch(`/get-categories?${params.toString()}`, {
+  const response = await fetch(`${API_ROOT}get-categories?${params.toString()}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })

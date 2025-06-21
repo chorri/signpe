@@ -7,11 +7,12 @@ export const FIREBASE_ENV = {
   APP_ID: import.meta.env.VITE_FIREBASE_APP_ID as string,
 }
 
+export const API_ROOT = import.meta.env.VITE_API_ROOT as string
+
 export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   SIGN_UP: '/sign-up',
   DASHBOARD: '/dashboard',
   SETUP_USER: '/setup-user',
-  BASIC: '/basic',
 }
