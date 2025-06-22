@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import { AuthProvider } from 'contexts'
 import { MainLayout, ProtectedRoute, PublicRoute } from 'components'
-import { Dashboard, Home, Levels, Login, SetupUser, SignPractice, SignUp } from 'pages'
+import { Dashboard, Home, Levels, Login, SetupUser, SignPractice, SignTest, SignUp } from 'pages'
 import { ROUTES } from 'lib/constants'
 
 function App() {
@@ -49,6 +49,7 @@ function App() {
             <Route element={<MainLayout />}>
               <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
               <Route path=":levelId" element={<Levels />} />
+              <Route path={`:levelId${ROUTES.TEST}`} element={<SignTest />} />
               <Route path=":levelId/:signId" element={<SignPractice />} />
             </Route>
           </Routes>

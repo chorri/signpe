@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Camera, CheckCircle2, ChevronRight, Loader2, Play } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import { useAuth, useCamera, useGetSign, usePredictSign } from 'hooks'
+import { useAuth, useCamera, useGetSign, useLocationState, usePredictSign } from 'hooks'
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Progress } from 'components'
 import { ROUTES } from 'lib/constants'
 import { getProgress } from 'lib/utils'
@@ -21,6 +21,8 @@ export const SignPractice = () => {
   const uid = user?.uid
 
   const predictMutation = usePredictSign()
+
+  const locationState = useLocationState()
 
   const [progress, setProgress] = React.useState<number | null>(null)
 
@@ -64,7 +66,7 @@ export const SignPractice = () => {
           </Link>
           <ChevronRight className="h-4 w-4 mx-2 text-gray-600" />
           <button onClick={goBack} className="cursor-pointer text-gray-400 hover:text-violet-400">
-            Básico
+            {locationState.difficulty}
           </button>
           <ChevronRight className="h-4 w-4 mx-2 text-gray-600" />
           <span className="text-white font-medium">{signData.name}</span>
@@ -73,7 +75,10 @@ export const SignPractice = () => {
         {/* Practice Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <Badge variant="outline" className="min-w-max border-violet-600 text-violet-400">
+            <Badge
+              variant="outline"
+              className="min-w-max bg-rose-900/30 text-rose-400 border-rose-700"
+            >
               Categoría: {signData.categoryName}
             </Badge>
           </div>
@@ -125,7 +130,7 @@ export const SignPractice = () => {
                     size="sm"
                     className="bg-violet-600 hover:bg-violet-700"
                   >
-                    <Play className="h-4 w-4 mr-2" />
+                    <Play className="h-4 w-4" />
                     Iniciar Práctica
                   </Button>
                 )}
@@ -139,7 +144,7 @@ export const SignPractice = () => {
                       <Camera className="h-12 w-12 text-gray-500 mx-auto mb-4" />
                       <p className="text-gray-400">
                         {cameraPermission
-                          ? 'Haga clic en "Iniciar práctica" para comenzar.'
+                          ? 'Haga clic en "Iniciar Práctica" para comenzar.'
                           : 'Se requiere permiso de la cámara'}
                       </p>
                     </div>
@@ -193,12 +198,8 @@ export const SignPractice = () => {
                   <span className="text-gray-300">Precisión</span>
                   <span className="text-white font-semibold">{progress}%</span>
                 </div>
-                <Progress value={progress} className="h-3" color={color}>
-                  <div
-                    className={`bg-green-600 h-full rounded-full transition-all duration-500`}
-                    style={{ width: `${progress}%` }}
-                  />
-                </Progress>
+                <Progress color={color} value={progress} className="bg-gray-700 h-3" />
+
                 <div className="flex items-center gap-2">
                   {approval && <CheckCircle2 className="h-5 w-5 text-green-500" />}
                   <p className={`font-medium ${textColor}`}>{message}</p>

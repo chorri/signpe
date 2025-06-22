@@ -15,7 +15,7 @@ export const getProgress = (progress: number) => {
     }
   }
 
-  if (progress >= 60) {
+  if (progress >= 50) {
     return {
       color: 'bg-yellow-500',
       message: '¡Genial! ¡Continúa practicando!',

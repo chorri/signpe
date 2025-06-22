@@ -28,7 +28,7 @@ export const Dashboard = () => {
 
     if (level && level.available) {
       navigate(`/${level.href}`, {
-        state: { levelId: id },
+        state: { levelId: id, difficulty: level.difficulty },
       })
     }
   }
@@ -109,8 +109,8 @@ export const Dashboard = () => {
                           variant="outline"
                           className={`mt-1 ${
                             index % 2 === 0
-                              ? 'border-violet-600 text-violet-400'
-                              : 'border-rose-600 text-rose-400'
+                              ? 'bg-violet-900/30 border-violet-700 text-violet-400'
+                              : 'bg-rose-900/30 border-rose-700 text-rose-400'
                           }`}
                         >
                           {level.difficulty}

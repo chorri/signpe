@@ -3,9 +3,9 @@
 import * as React from 'react'
 import { BookOpenText, CheckCircle2, ChevronDown, ChevronRight, LockKeyhole } from 'lucide-react'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import { useAuth, useGetCategories, useGetSigns } from 'hooks'
+import { useAuth, useGetCategories, useGetSigns, useLocationState } from 'hooks'
 import {
   Badge,
   Button,
@@ -22,21 +22,7 @@ export const Levels = () => {
 
   const { levelId: levelHref } = useParams()
 
-  const locationState = useLocation()?.state as { levelId: string }
-
-  React.useEffect(() => {
-    if (!locationState) {
-      navigate(ROUTES.DASHBOARD)
-
-      return
-    }
-  }, [locationState])
-
-  if (!locationState) {
-    return null
-  }
-
-  const { levelId } = locationState
+  const locationState = useLocationState()
 
   const [expandedCategory, setExpandedCategory] = React.useState<string | null>(null)
 
@@ -44,7 +30,7 @@ export const Levels = () => {
 
   const uid = user?.uid
 
-  const categoriesQuery = useGetCategories(uid, levelId)
+  const categoriesQuery = useGetCategories(uid, locationState?.levelId)
 
   const signsQuery = useGetSigns(uid, expandedCategory)
 
@@ -59,7 +45,9 @@ export const Levels = () => {
   }
 
   const handleSignClick = (signId: string) => {
-    navigate(`/${levelHref}/${signId}`)
+    navigate(`/${levelHref}/${signId}`, {
+      state: locationState,
+    })
   }
 
   const handleExamClick = () => {
@@ -67,9 +55,9 @@ export const Levels = () => {
       return
     }
 
-    console.log('Go to exam')
-
-    // navigate(`/${levelHref}/exam`)
+    navigate(`/${levelHref}${ROUTES.TEST}`, {
+      state: locationState,
+    })
   }
 
   if (categoriesQuery.isPending || loading) {
@@ -85,13 +73,13 @@ export const Levels = () => {
             Inicio
           </Link>
           <ChevronRight className="h-4 w-4 mx-2 text-gray-600" />
-          <span className="text-white font-medium">Básico</span>
+          <span className="text-white font-medium">{locationState.difficulty}</span>
         </div>
 
         {/* Level Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">
-            Nivel Básico del Lenguaje de Señas Peruano (LSP)
+            Nivel {locationState.difficulty} del Lenguaje de Señas Peruano (LSP)
           </h1>
           <p className="text-gray-300 max-w-3xl">
             Empieza tu aventura en el lenguaje de señas peruano. Haz click en cualquier categoría
@@ -170,8 +158,8 @@ export const Levels = () => {
                           variant="outline"
                           className={`min-w-max ${
                             index % 2 === 0
-                              ? 'border-violet-600 text-violet-400'
-                              : 'border-rose-600 text-rose-400'
+                              ? 'bg-violet-900/30 border-violet-700 text-violet-400'
+                              : 'bg-rose-900/30 border-rose-700 text-rose-400'
                           }`}
                         >
                           {`Completado ${category.progress}/${category.signCount} Señas`}

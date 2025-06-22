@@ -15,4 +15,5 @@ export const ROUTES = {
   SIGN_UP: '/sign-up',
   DASHBOARD: '/dashboard',
   SETUP_USER: '/setup-user',
+  TEST: '/test',
 }
