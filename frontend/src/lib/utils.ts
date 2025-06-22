@@ -12,15 +12,21 @@ export const getProgress = (progress: number) => {
       message: '¡Excelente! ¡Buen trabajo!',
       textColor: 'text-green-400',
       approval: true,
+      icon: 'check-circle-2',
+      label: '¡Aprobado!',
+      rating: 'Correcto',
     }
   }
 
   if (progress >= 50) {
     return {
       color: 'bg-yellow-500',
-      message: '¡Genial! ¡Continúa practicando!',
+      message: '¡Falta poco! ¡Continúa practicando!',
       textColor: 'text-yellow-400',
       approval: false,
+      icon: 'x-circle',
+      label: '¡Falta poco!',
+      rating: 'Buen intento',
     }
   }
 
@@ -29,5 +35,8 @@ export const getProgress = (progress: number) => {
     message: '¡No te rindas! ¡Tu puedes lograrlo!',
     textColor: 'text-red-400',
     approval: false,
+    icon: 'x-circle',
+    label: '¡Continúa practicando!',
+    rating: 'Incorrecto',
   }
 }

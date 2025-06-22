@@ -3,6 +3,8 @@ import { doc, getDoc } from 'firebase/firestore'
 import { API_ROOT } from 'lib/constants'
 import { db } from 'lib/firebase'
 
+import { CategoryInterface } from './categories'
+
 export interface SignInterface {
   id: string
   name: string
@@ -13,7 +15,11 @@ export interface SignInterface {
 }
 
 export interface SignWithCategoryName extends SignInterface {
-  categoryName?: string
+  categoryName: string
+}
+
+export interface SignTestInterface extends SignWithCategoryName {
+  question: string
 }
 
 export async function getSign(uid: SignInterface['id']): Promise<SignWithCategoryName | null> {
@@ -51,4 +57,23 @@ export async function getSigns(
   }
 
   return response.json() as Promise<SignInterface[]>
+}
+
+export async function getTestSigns(
+  levelId: CategoryInterface['levelId']
+): Promise<SignTestInterface[]> {
+  const params = new URLSearchParams({
+    levelId,
+  })
+
+  const response = await fetch(`${API_ROOT}get-test-signs?${params.toString()}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch prediction result')
+  }
+
+  return response.json() as Promise<SignTestInterface[]>
 }

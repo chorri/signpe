@@ -1,21 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import {
-  Camera,
-  CheckCircle2,
-  ChevronRight,
-  Loader2,
-  Play,
-  RotateCcw,
-  Trophy,
-  XCircle,
-} from 'lucide-react'
+import { Camera, ChevronRight, Loader2, Play, Trophy } from 'lucide-react'
+import { DynamicIcon, IconName } from 'lucide-react/dynamic'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { useCamera, useLocationState } from 'hooks'
+import { useCamera, useGetTestSigns, useLocationState } from 'hooks'
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Progress } from 'components'
 import { ROUTES } from 'lib/constants'
+import { getProgress } from 'lib/utils'
 
 const questions = [
   {
@@ -61,6 +54,12 @@ export const SignTest = () => {
 
   const [testCompleted, setTestCompleted] = useState(false)
 
+  const testSignsQuery = useGetTestSigns(locationState?.levelId)
+
+  const testSignsData = testSignsQuery.data || []
+
+  console.log('Test Signs Data:', testSignsData)
+
   const handleNextQuestion = (score: number) => {
     setAnswers([...answers, score])
 
@@ -93,8 +92,10 @@ export const SignTest = () => {
 
   const overallScore = getOverallScore()
 
+  const { textColor, approval, label } = getProgress(overallScore)
+
   const handleFinishTest = () => {
-    if (overallScore >= 80) {
+    if (approval) {
       navigate(ROUTES.DASHBOARD, { replace: true })
 
       return
@@ -103,18 +104,8 @@ export const SignTest = () => {
     goBack()
   }
 
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-400'
-
-    if (score >= 50) return 'text-yellow-400'
-
-    return 'text-red-400'
-  }
-
-  const getScoreIcon = (score: number) => {
-    if (score >= 80) return <CheckCircle2 className="h-5 w-5 text-green-500" />
-
-    return <XCircle className="h-5 w-5 text-red-500" />
+  if (testSignsQuery.isPending) {
+    return null
   }
 
   if (testCompleted) {
@@ -134,16 +125,8 @@ export const SignTest = () => {
             </CardHeader>
             <CardContent>
               <div className="text-center mb-6">
-                <div className={`text-6xl font-bold mb-2 ${getScoreColor(overallScore)}`}>
-                  {overallScore}%
-                </div>
-                <p className={`text-lg ${getScoreColor(overallScore)}`}>
-                  {overallScore >= 80
-                    ? 'Excellente!'
-                    : overallScore >= 50
-                      ? 'Falta poco!'
-                      : 'Continúa prácticando!'}
-                </p>
+                <div className={`text-6xl font-bold mb-2 ${textColor}`}>{overallScore}%</div>
+                <p className={`text-lg ${textColor}`}>{label}</p>
               </div>
             </CardContent>
           </Card>
@@ -174,18 +157,19 @@ export const SignTest = () => {
                     </div>
                     <div className="flex items-center gap-3 ml-4">
                       <div className="text-right">
-                        <div className={`text-xl font-bold ${getScoreColor(answers[index])}`}>
+                        <div
+                          className={`text-xl font-bold ${getProgress(answers[index]).textColor}`}
+                        >
                           {answers[index]}%
                         </div>
-                        <div className={`text-sm ${getScoreColor(answers[index])}`}>
-                          {answers[index] >= 80
-                            ? 'Correcto'
-                            : answers[index] >= 50
-                              ? 'Buen Intento'
-                              : 'Incorrecto'}
+                        <div className={`text-sm ${getProgress(answers[index]).textColor}`}>
+                          {getProgress(answers[index]).rating}
                         </div>
                       </div>
-                      {getScoreIcon(answers[index])}
+                      <DynamicIcon
+                        name={getProgress(answers[index]).icon as IconName}
+                        className={`h-5 w-5 ${getProgress(answers[index]).textColor}`}
+                      />
                     </div>
                   </div>
                 ))}

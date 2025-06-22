@@ -4,7 +4,7 @@ import { getLevels, LevelsInterface } from 'api'
 
 export const useGetLevels = (uid: string) => {
   return useQuery<LevelsInterface[]>({
-    queryKey: ['categories', uid],
+    queryKey: ['levels', uid],
     queryFn: () => getLevels(uid),
     enabled: !!uid,
   })
