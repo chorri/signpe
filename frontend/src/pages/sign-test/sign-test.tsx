@@ -226,7 +226,7 @@ export const SignTest = () => {
               Exámen de Nivel {locationState.difficulty}
             </h1>
             <Badge className="bg-violet-900/30 text-violet-400 border-violet-700">
-              Question {currentQuestion + 1} of {questions.length}
+              Pregunta {currentQuestion + 1} de {questions.length}
             </Badge>
           </div>
           <Progress

@@ -40,14 +40,6 @@ db = firestore.client()
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:5173"])
 
-# Cargar modelo y labels
-MODEL_PATH = 'models-v9/color_v9.keras'
-LABELS_PATH = 'models-v9/color_labels.json'
-
-model = tf.keras.models.load_model(MODEL_PATH)
-with open(LABELS_PATH, 'r') as f:
-    labels = json.load(f)
-
 # Inicializar MediaPipe
 mp_pose = mp.solutions.pose
 mp_hands = mp.solutions.hands
@@ -87,6 +79,7 @@ def add_category_with_signs(custom_category_id, category_name, category_descript
         sign_name = sign.get("name")
         sign_video_ref = sign.get("videoRef")
         sign_label = sign.get("label")
+        sign_question = sign.get("question")
 
         if not custom_sign_id or not sign_name:
             continue
@@ -96,7 +89,8 @@ def add_category_with_signs(custom_category_id, category_name, category_descript
             "name": sign_name,
             "label": sign_label,
             "categoryId": custom_category_id,
-            "videoRef": sign_video_ref
+            "videoRef": sign_video_ref,
+            "question" : sign_question
         }, merge=True)
 
     return custom_category_id
@@ -140,21 +134,21 @@ def create_all_levels():
 
 def create_all_categories():
     categoria_id = add_category_with_signs("categoryId01", "Alfabeto", "Aprende el abecedario en LSP y mejora tu habilidad para deletrear con señas.","hand", "levelId01", [
-    {"id": "signId001", "name": "Letra A", "label":"a", "videoRef": "YKgCa1dwItA"},
-    {"id": "signId002", "name": "Letra B", "label":"b", "videoRef": "nl5ghpTg5ec"},
-    {"id": "signId003", "name": "Letra C", "label":"c", "videoRef": "H-anKSubm-w"},
-    {"id": "signId004", "name": "Letra D", "label":"d", "videoRef": "r_Gs_Jbdl9E"},
-    {"id": "signId005", "name": "Letra E", "label":"e", "videoRef": "youtube.com"},
-    {"id": "signId006", "name": "Letra F", "label":"f", "videoRef": "youtube.com"}
+    {"id": "signId001", "name": "Letra A", "label":"a", "videoRef": "YKgCa1dwItA","question":"Haz la seña de la letra A"},
+    {"id": "signId002", "name": "Letra B", "label":"b", "videoRef": "nl5ghpTg5ec","question":"Haz la seña de la letra B"},
+    {"id": "signId003", "name": "Letra C", "label":"c", "videoRef": "H-anKSubm-w","question":"Haz la seña de la letra C"},
+    {"id": "signId004", "name": "Letra D", "label":"d", "videoRef": "r_Gs_Jbdl9E","question":"Haz la seña de la letra D"},
+    {"id": "signId005", "name": "Letra E", "label":"e", "videoRef": "youtube.com","question":"Haz la seña de la letra E"},
+    {"id": "signId006", "name": "Letra F", "label":"f", "videoRef": "youtube.com","question":"Haz la seña de la letra F"}
     ])
     print(f"Categoría creada con ID: {categoria_id}")
     categoria_id = add_category_with_signs("categoryId02", "Colores", "Identifica y aprende los colores básicos para describir el mundo que te rodea.","palette", "levelId01", [
-    {"id": "signId007", "name": "Verde", "label":"verde", "videoRef": "KmUUdxL4W7U"},
-    {"id": "signId008", "name": "Rojo", "label":"rojo", "videoRef": "PUx8iIfwvDU"},
-    {"id": "signId009", "name": "Amarillo", "label":"amarillo", "videoRef": "y1_EkCMMlhM"},
-    {"id": "signId010", "name": "Blanco", "label":"blanco", "videoRef": "1s4aYoAodlc"},
-    {"id": "signId011", "name": "Negro", "label":"negro", "videoRef": "60TK3s9V0nY"},
-    {"id": "signId012", "name": "Azul", "label":"azul", "videoRef": "VC0csxuR34Q"}
+    {"id": "signId007", "name": "Verde", "label":"verde", "videoRef": "KmUUdxL4W7U","question":"Haz la seña del color Verde"},
+    {"id": "signId008", "name": "Rojo", "label":"rojo", "videoRef": "PUx8iIfwvDU","question":"Haz la seña del color Rojo"},
+    {"id": "signId009", "name": "Amarillo", "label":"amarillo", "videoRef": "y1_EkCMMlhM","question":"Haz la seña del color Amarillo"},
+    {"id": "signId010", "name": "Blanco", "label":"blanco", "videoRef": "1s4aYoAodlc","question":"Haz la seña del color Blanco"},
+    {"id": "signId011", "name": "Negro", "label":"negro", "videoRef": "60TK3s9V0nY","question":"Haz la seña del color Negro"},
+    {"id": "signId012", "name": "Azul", "label":"azul", "videoRef": "VC0csxuR34Q","question":"Haz la seña del color Azul"}
     ])
     print(f"Categoría creada con ID: {categoria_id}")
     categoria_id = add_category_with_signs("categoryId03", "Familia", "Identifica y aprende los colores básicos para describir el mundo que te rodea.","palette", "levelId01", [
@@ -162,7 +156,25 @@ def create_all_categories():
     print(f"Categoría creada con ID: {categoria_id}")
     
 
+def define_model_path(category_id):
+    path = 'models-v9/'
 
+    if category_id == "categoryId01":
+        path += "abecedario/abecedario_v10.keras"
+    elif category_id == "categoryId02":
+        path += ""
+    elif category_id == "categoryId03":
+        path += ""
+    elif category_id == "categoryId04":
+        path += ""
+    elif category_id == "categoryId05":
+        path += ""
+    elif category_id == "categoryId06":
+        path += ""
+    return ""
+
+def define_label_path():
+    return ""
 
 
 #@app.route('/')
@@ -186,6 +198,22 @@ def predict():
         return jsonify({'error': 'Se requieren exactamente 30 frames'}), 400
 
     sequence = []
+
+    UID_TEMP = data.get('uid')
+    sign_ID = data.get('signId')
+    sign_doc = db.collection('signs').document(sign_ID).get()
+    current_sign_label = sign_doc.to_dict().get("label") # verde
+    category_ID = sign_doc.to_dict().get("categoryId")
+
+    # Cargar modelo y labels
+    MODEL_PATH = 'models-v9/color_v9.keras'
+    LABELS_PATH = 'models-v9/color_labels.json'
+
+    model = tf.keras.models.load_model(MODEL_PATH)
+    with open(LABELS_PATH, 'r') as f:
+        labels = json.load(f)
+
+
 
     for img_base64 in images:
         img_bytes = base64.b64decode(img_base64.split(',')[-1])
@@ -224,12 +252,7 @@ def predict():
         print(f"Prediction error: {e}")
         return jsonify({'error':'Prediction Failed'}),500
     
-    
-    UID_TEMP = data.get('uid')
-    sign_ID = data.get('signId')
-    sign_doc = db.collection('signs').document(sign_ID).get()
-    current_sign_label = sign_doc.to_dict().get("label") # verde
-    category_ID = sign_doc.to_dict().get("categoryId")
+
 
     reverse_label_map = {v: int(k) for k, v in labels.items()} #reverse labels to seach index by label
     target_index = reverse_label_map[current_sign_label]    
@@ -524,9 +547,14 @@ if __name__ == '__main__':
 #    {'videoRef': 'VC0csxuR34Q', 'label': 'azul', 'categoryId': 'categoryId02', 'name': 'Azul'}]
 
 #[
-#    {'videoRef': 'youtube.com', 'label': 'f', 'categoryId': 'categoryId01', 'name': 'Letra F'},
+#    {'categoryName':'' ,'question': 'Haz la seña de la letra F', 'label': 'f', 'categoryId': 'categoryId01', 'name': 'Letra F'},
+
+
 #    {'videoRef': 'r_Gs_Jbdl9E', 'label': 'd', 'categoryId': 'categoryId01', 'name': 'Letra D'}, 
 #    {'videoRef': 'nl5ghpTg5ec', 'label': 'b', 'categoryId': 'categoryId01', 'name': 'Letra B'}, 
 #    {'videoRef': '60TK3s9V0nY', 'label': 'negro', 'categoryId': 'categoryId02', 'name': 'Negro'}, 
 #    {'videoRef': '1s4aYoAodlc', 'label': 'blanco', 'categoryId': 'categoryId02', 'name': 'Blanco'}, 
 #    {'videoRef': 'PUx8iIfwvDU', 'label': 'rojo', 'categoryId': 'categoryId02', 'name': 'Rojo'}]
+
+# Agregar categoryName a get_exam_signs
+# Agregar un Predict-Test que itera entre N objetos -> [30 frames], UID, SignID
