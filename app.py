@@ -139,7 +139,28 @@ def create_all_categories():
     {"id": "signId003", "name": "Letra C", "label":"c", "videoRef": "H-anKSubm-w","question":"Haz la seña de la letra C"},
     {"id": "signId004", "name": "Letra D", "label":"d", "videoRef": "r_Gs_Jbdl9E","question":"Haz la seña de la letra D"},
     {"id": "signId005", "name": "Letra E", "label":"e", "videoRef": "youtube.com","question":"Haz la seña de la letra E"},
-    {"id": "signId006", "name": "Letra F", "label":"f", "videoRef": "youtube.com","question":"Haz la seña de la letra F"}
+    {"id": "signId006", "name": "Letra F", "label":"f", "videoRef": "youtube.com","question":"Haz la seña de la letra F"},
+    {"id": "signId007", "name": "Letra G", "label":"g", "videoRef": "youtube.com","question":"Haz la seña de la letra G"},
+    {"id": "signId008", "name": "Letra H", "label":"h", "videoRef": "youtube.com","question":"Haz la seña de la letra H"},
+    {"id": "signId009", "name": "Letra I", "label":"i", "videoRef": "youtube.com","question":"Haz la seña de la letra I"},
+    {"id": "signId010", "name": "Letra J", "label":"j", "videoRef": "youtube.com","question":"Haz la seña de la letra J"},
+    {"id": "signId011", "name": "Letra K", "label":"k", "videoRef": "youtube.com","question":"Haz la seña de la letra K"},
+    {"id": "signId012", "name": "Letra L", "label":"l", "videoRef": "youtube.com","question":"Haz la seña de la letra L"},
+    {"id": "signId013", "name": "Letra M", "label":"m", "videoRef": "youtube.com","question":"Haz la seña de la letra M"},
+    {"id": "signId014", "name": "Letra N", "label":"n", "videoRef": "youtube.com","question":"Haz la seña de la letra N"},
+    {"id": "signId015", "name": "Letra Ñ", "label":"nn", "videoRef": "youtube.com","question":"Haz la seña de la letra Ñ"},
+    {"id": "signId016", "name": "Letra O", "label":"o", "videoRef": "youtube.com","question":"Haz la seña de la letra O"},
+    {"id": "signId017", "name": "Letra P", "label":"p", "videoRef": "youtube.com","question":"Haz la seña de la letra P"},
+    {"id": "signId018", "name": "Letra Q", "label":"q", "videoRef": "youtube.com","question":"Haz la seña de la letra Q"},
+    {"id": "signId019", "name": "Letra R", "label":"r", "videoRef": "youtube.com","question":"Haz la seña de la letra R"},
+    {"id": "signId020", "name": "Letra S", "label":"s", "videoRef": "youtube.com","question":"Haz la seña de la letra S"},
+    {"id": "signId021", "name": "Letra T", "label":"t", "videoRef": "youtube.com","question":"Haz la seña de la letra T"},
+    {"id": "signId022", "name": "Letra U", "label":"u", "videoRef": "youtube.com","question":"Haz la seña de la letra U"},
+    {"id": "signId023", "name": "Letra V", "label":"v", "videoRef": "youtube.com","question":"Haz la seña de la letra V"},
+    {"id": "signId024", "name": "Letra W", "label":"w", "videoRef": "youtube.com","question":"Haz la seña de la letra W"},
+    {"id": "signId025", "name": "Letra X", "label":"x", "videoRef": "youtube.com","question":"Haz la seña de la letra X"},
+    {"id": "signId026", "name": "Letra Y", "label":"y", "videoRef": "youtube.com","question":"Haz la seña de la letra Y"},
+    {"id": "signId027", "name": "Letra Z", "label":"z", "videoRef": "youtube.com","question":"Haz la seña de la letra Z"}
     ])
     print(f"Categoría creada con ID: {categoria_id}")
     categoria_id = add_category_with_signs("categoryId02", "Colores", "Identifica y aprende los colores básicos para describir el mundo que te rodea.","palette", "levelId01", [
@@ -156,25 +177,28 @@ def create_all_categories():
     print(f"Categoría creada con ID: {categoria_id}")
     
 
-def define_model_path(category_id):
+def define_model_label_path(category_id, path_ending):
     path = 'models-v9/'
-
+    #_v10.keras
+    #_labels.json
+    print("\n\n")
+    print(category_id)
+    print("\n\n")
     if category_id == "categoryId01":
-        path += "abecedario/abecedario_v10.keras"
+        path += "abecedario/abecedario" + path_ending
     elif category_id == "categoryId02":
-        path += ""
+        path += "color/color" + path_ending
     elif category_id == "categoryId03":
-        path += ""
+        path += "familia/familia" + path_ending
     elif category_id == "categoryId04":
-        path += ""
+        path += "numeros/numeros" + path_ending
     elif category_id == "categoryId05":
-        path += ""
+        path += "preguntas/preguntas" + path_ending
     elif category_id == "categoryId06":
-        path += ""
-    return ""
-
-def define_label_path():
-    return ""
+        path += "pronombres/pronombres" + path_ending
+    
+    print(path)
+    return path
 
 
 #@app.route('/')
@@ -206,14 +230,12 @@ def predict():
     category_ID = sign_doc.to_dict().get("categoryId")
 
     # Cargar modelo y labels
-    MODEL_PATH = 'models-v9/color_v9.keras'
-    LABELS_PATH = 'models-v9/color_labels.json'
+    #MODEL_PATH = 'models-v9/color_v9.keras'
+    #LABELS_PATH = 'models-v9/color_labels.json'
 
-    model = tf.keras.models.load_model(MODEL_PATH)
-    with open(LABELS_PATH, 'r') as f:
+    model = tf.keras.models.load_model(define_model_label_path(category_ID,"_v10.keras"))
+    with open(define_model_label_path(category_ID,"_labels.json"), 'r') as f:
         labels = json.load(f)
-
-
 
     for img_base64 in images:
         img_bytes = base64.b64decode(img_base64.split(',')[-1])
@@ -323,7 +345,6 @@ def predict():
     }, merge=True)
 
     # LEVEL PROGRESS
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n")
     
     total_progress = 0
     for doc in category_progress_query.stream():
@@ -367,6 +388,85 @@ def predict():
         })
 
     return jsonify(result)
+
+
+@app.route('/predict-test', methods=['POST'])
+def predict_test():
+
+    test_result = []
+
+    for data_element in request.get_json():
+        data = data_element
+        images = data.get('frames')
+
+        if not images or len(images) != 30:
+            return jsonify({'error': 'Se requieren exactamente 30 frames'}), 400
+
+        sequence = []
+
+        UID_TEMP = data.get('uid')
+        sign_ID = data.get('signId')
+        sign_doc = db.collection('signs').document(sign_ID).get()
+        current_sign_label = sign_doc.to_dict().get("label") # verde
+        category_ID = sign_doc.to_dict().get("categoryId")
+
+    # Cargar modelo y labels
+    #MODEL_PATH = 'models-v9/color_v9.keras'
+    #LABELS_PATH = 'models-v9/color_labels.json'
+
+        model = tf.keras.models.load_model(define_model_label_path(category_ID,"_v10.keras"))
+        with open(define_model_label_path(category_ID,"_labels.json"), 'r') as f:
+            labels = json.load(f)
+    
+
+        for img_base64 in images:
+            img_bytes = base64.b64decode(img_base64.split(',')[-1])
+            np_arr = np.frombuffer(img_bytes, np.uint8)
+            frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+            image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+            # Procesar con MediaPipe
+            pose_result = pose.process(image_rgb)
+            hands_result = hands.process(image_rgb)
+
+            pose_vec = np.zeros((33, 4))
+            if pose_result.pose_landmarks:
+                for i, lm in enumerate(pose_result.pose_landmarks.landmark):
+                    pose_vec[i] = [lm.x, lm.y, lm.z, lm.visibility]
+
+            left_hand = np.full((21, 3), -1.0)
+            right_hand = np.full((21, 3), -1.0)
+
+            if hands_result.multi_hand_landmarks and hands_result.multi_handedness:
+                for idx, handedness in enumerate(hands_result.multi_handedness):
+                    label = handedness.classification[0].label
+                    coords = np.array([[lm.x, lm.y, lm.z] for lm in hands_result.multi_hand_landmarks[idx].landmark])
+                    if label == 'Left':
+                        left_hand = coords
+                    else:
+                        right_hand = coords
+
+            features = np.concatenate([pose_vec.flatten(), left_hand.flatten(), right_hand.flatten()])
+            sequence.append(features)
+
+        try:    
+            input_array = np.expand_dims(np.array(sequence), axis=0)
+            prediction = model.predict(input_array, verbose=0)[0]    
+        except Exception as e:
+            print(f"Prediction error: {e}")
+            return jsonify({'error':'Prediction Failed'}),500
+        
+        reverse_label_map = {v: int(k) for k, v in labels.items()} #reverse labels to seach index by label
+        target_index = reverse_label_map[current_sign_label]    
+        probability = float(round(prediction[target_index] * 100, 2))
+    
+        result = {
+            "probability": probability,
+            
+        }
+        test_result.append(result)
+
+    return 0
 
 @app.route('/get-signs', methods=['GET'])
 def get_signs():
@@ -486,8 +586,8 @@ def get_levels():
 
 @app.route('/get-exam-signs', methods=['GET'])
 def get_exam_signs():
-    #level_id = "levelId01"
-    level_id = request.args.get('levelId')
+    level_id = "levelId01"
+    #level_id = request.args.get('levelId')
     max_signs = 3
 
     category_query = (
@@ -495,30 +595,34 @@ def get_exam_signs():
         .where("levelId", "==", level_id)
     ).stream()
 
-    category_ids = [category_doc.id for category_doc in category_query]
+    #category_ids = []
+    #for category_doc in category_query:
+    #    category_ids.append(category_doc.id)
+        
+     #= [category_doc.id for category_doc in category_query]
+    
     merged_results = []
-
-    for category_id in category_ids:
+    for category_doc in category_query:
         signs_query = (
             db.collection("signs")
-            .where("categoryId", "==", category_id)
+            .where("categoryId", "==", category_doc.id)
         ).stream()
 
         signs = [sign_doc.to_dict() for sign_doc in signs_query]
+        for sign in signs:
+            sign["categoryName"] = category_doc.get("name")
 
         random.shuffle(signs)
         selected_signs = signs[:max_signs] if max_signs < len(signs) else signs
         merged_results.extend(selected_signs)
 
-    #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    #print(merged_results)
-
+    print(merged_results)
     return jsonify(merged_results)
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 10000))
-    app.run(host='0.0.0.0', port=port)
+    #port = int(os.environ.get('PORT', 10000))
+    #app.run(host='0.0.0.0', port=port)
     #app.run(debug=True, host='127.0.0.1', port=5000)
     
     #create_all_categories()
@@ -528,7 +632,7 @@ if __name__ == '__main__':
 
     #create_all_levels()
     #get_levels()
-    #get_exam_signs()
+    get_exam_signs()
 
 #max_signs = 3
 
@@ -555,6 +659,16 @@ if __name__ == '__main__':
 #    {'videoRef': '60TK3s9V0nY', 'label': 'negro', 'categoryId': 'categoryId02', 'name': 'Negro'}, 
 #    {'videoRef': '1s4aYoAodlc', 'label': 'blanco', 'categoryId': 'categoryId02', 'name': 'Blanco'}, 
 #    {'videoRef': 'PUx8iIfwvDU', 'label': 'rojo', 'categoryId': 'categoryId02', 'name': 'Rojo'}]
+
+#[
+#    {'videoRef': 'YKgCa1dwItA', 'label': 'a', 'categoryId': 'categoryId01', 'question': 'Haz la seña de la letra A', 'name': 'Letra A', 'categoryName': 'Alfabeto'},
+#    {'videoRef': 'r_Gs_Jbdl9E', 'label': 'd', 'categoryId': 'categoryId01', 'question': 'Haz la seña de la letra D', 'name': 'Letra D', 'categoryName': 'Alfabeto'},
+#    {'videoRef': 'H-anKSubm-w', 'label': 'c', 'categoryId': 'categoryId01', 'question': 'Haz la seña de la letra C', 'name': 'Letra C', 'categoryName': 'Alfabeto'},
+#    {'videoRef': '60TK3s9V0nY', 'label': 'negro', 'categoryId': 'categoryId02', 'question': 'Haz la seña del color Negro', 'name': 'Negro', 'categoryName': 'Colores'},
+#    {'videoRef': 'VC0csxuR34Q', 'label': 'azul', 'categoryId': 'categoryId02', 'question': 'Haz la seña del color Azul', 'name': 'Azul', 'categoryName': 'Colores'}, 
+#    {'videoRef': 'y1_EkCMMlhM', 'label': 'amarillo', 'categoryId': 'categoryId02', 'question': 'Haz la seña del color Amarillo', 'name': 'Amarillo', 'categoryName': 'Colores'}
+#]
+
 
 # Agregar categoryName a get_exam_signs
 # Agregar un Predict-Test que itera entre N objetos -> [30 frames], UID, SignID
