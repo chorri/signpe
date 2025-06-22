@@ -10,39 +10,6 @@ import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Progress } fro
 import { ROUTES } from 'lib/constants'
 import { getProgress } from 'lib/utils'
 
-const questions = [
-  {
-    id: 1,
-    question: "Sign the letter 'A'",
-    description: 'Form a closed fist with your thumb positioned on the side of your hand',
-    category: 'Alphabet',
-  },
-  {
-    id: 2,
-    question: "Sign 'Hello'",
-    description: 'Raise your hand and wave in a greeting motion',
-    category: 'Greetings',
-  },
-  {
-    id: 3,
-    question: "Sign the number '5'",
-    description: 'Show all five fingers spread apart',
-    category: 'Numbers',
-  },
-  {
-    id: 4,
-    question: "Sign 'Thank you'",
-    description: 'Touch your chin and move your hand forward',
-    category: 'Common Expressions',
-  },
-  {
-    id: 5,
-    question: "Sign 'What?'",
-    description: 'Point your index finger up and shake your hand slightly',
-    category: 'Questions',
-  },
-]
-
 export const SignTest = () => {
   const navigate = useNavigate()
 
@@ -63,7 +30,7 @@ export const SignTest = () => {
   const handleNextQuestion = (score: number) => {
     setAnswers([...answers, score])
 
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < testSignsData.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
 
       return
@@ -138,7 +105,7 @@ export const SignTest = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {questions.map((question, index) => (
+                {testSignsData.map((question, index) => (
                   <div
                     key={question.id}
                     className="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
@@ -150,7 +117,7 @@ export const SignTest = () => {
                           variant="outline"
                           className="min-w-max bg-rose-900/30 text-rose-400 border-rose-700"
                         >
-                          {question.category}
+                          {question.categoryName}
                         </Badge>
                       </div>
                       <p className="text-white font-medium mb-1">{question.question}</p>
@@ -210,12 +177,12 @@ export const SignTest = () => {
               Exámen de Nivel {locationState.difficulty}
             </h1>
             <Badge className="bg-violet-900/30 text-violet-400 border-violet-700">
-              Pregunta {currentQuestion + 1} de {questions.length}
+              Pregunta {currentQuestion + 1} de {testSignsData.length}
             </Badge>
           </div>
           <Progress
             color="bg-violet-600"
-            value={((currentQuestion + 1) / questions.length) * 100}
+            value={((currentQuestion + 1) / testSignsData.length) * 100}
             className="bg-gray-700 h-2"
           />
         </div>
@@ -226,7 +193,7 @@ export const SignTest = () => {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-white text-xl mb-2">
-                  {questions[currentQuestion].question}
+                  {testSignsData[currentQuestion].question}
                 </CardTitle>
                 <p className="text-gray-300">
                   Presiona "Grabar Respuesta" cuando te encuentres listo.
@@ -236,7 +203,7 @@ export const SignTest = () => {
                 variant="outline"
                 className="min-w-max bg-rose-900/30 text-rose-400 border-rose-700"
               >
-                {questions[currentQuestion].category}
+                {testSignsData[currentQuestion].categoryName}
               </Badge>
             </div>
           </CardHeader>
