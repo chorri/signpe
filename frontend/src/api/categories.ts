@@ -10,10 +10,15 @@ export interface CategoryInterface {
   progress: number
 }
 
+export interface CategoriesInterface {
+  categories: CategoryInterface[]
+  canDoTest: boolean
+}
+
 export async function getCategories(
   uid: CategoryInterface['id'],
   levelId: CategoryInterface['levelId']
-): Promise<CategoryInterface[]> {
+): Promise<CategoriesInterface> {
   const params = new URLSearchParams({
     uid,
     levelId,
@@ -28,5 +33,5 @@ export async function getCategories(
     throw new Error('Failed to fetch prediction result')
   }
 
-  return response.json() as Promise<CategoryInterface[]>
+  return response.json() as Promise<CategoriesInterface>
 }

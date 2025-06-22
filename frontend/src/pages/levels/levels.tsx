@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { CheckCircle2, ChevronDown, ChevronRight } from 'lucide-react'
+import { BookOpenText, CheckCircle2, ChevronDown, ChevronRight, LockKeyhole } from 'lucide-react'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 
@@ -48,7 +48,9 @@ export const Levels = () => {
 
   const signsQuery = useGetSigns(uid, expandedCategory)
 
-  const categoriesData = categoriesQuery.data || []
+  const categoriesData = categoriesQuery.data?.categories || []
+
+  const canDoTest = categoriesQuery.data?.canDoTest || false
 
   const signsData = signsQuery.data || []
 
@@ -58,6 +60,16 @@ export const Levels = () => {
 
   const handleSignClick = (signId: string) => {
     navigate(`/${levelHref}/${signId}`)
+  }
+
+  const handleExamClick = () => {
+    if (!canDoTest) {
+      return
+    }
+
+    console.log('Go to exam')
+
+    // navigate(`/${levelHref}/exam`)
   }
 
   if (categoriesQuery.isPending || loading) {
@@ -89,6 +101,43 @@ export const Levels = () => {
 
         {/* Categories List */}
         <div className="space-y-4">
+          <Card
+            className={`bg-gray-800 border-gray-700 ${canDoTest ? 'border-gray-400 hover:border-gray-200 transition-all duration-300 cursor-pointer' : 'cursor-not-allowed'}`}
+            onClick={handleExamClick}
+          >
+            <CardHeader className="py-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="p-2 rounded-lg bg-gray-900 text-gray-400">
+                    {canDoTest ? (
+                      <BookOpenText className="h-8 w-8" />
+                    ) : (
+                      <LockKeyhole className="h-8 w-8" />
+                    )}
+                  </div>
+                  <div>
+                    <CardTitle className="text-white text-lg">Examen</CardTitle>
+                    <CardDescription className="text-gray-400">
+                      Completa todas las categorias para desbloquear el examen.
+                    </CardDescription>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      disabled={!canDoTest}
+                      className="min-w-max bg-gray-900 border-gray-400 text-gray-400 hover:bg-gray-900/50 hover:text-gray-300 hover:border-gray-300"
+                      onClick={handleExamClick}
+                    >
+                      {canDoTest ? <BookOpenText /> : <LockKeyhole />}
+                      Ir al examen
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+          </Card>
           {categoriesData.map((category, index) => (
             <div key={category.id} className="space-y-2">
               {/* Category Header */}
