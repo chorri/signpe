@@ -10,6 +10,7 @@ from firebase_admin import credentials, firestore
 import os
 from dotenv import load_dotenv
 from flask_cors import CORS
+import random
 
 load_dotenv()
 
@@ -130,6 +131,10 @@ def create_all_levels():
     print(f"Nivel creado con ID: {level_id}")
 
     level_id = add_level("levelId04","Nivel Experto","Perfecciona tu conocimiento para interpretar conversaciones a tiempo real y participar en presentaciones formales",
+                         "Experto",20,"0 horas","🎓","")
+    print(f"Nivel creado con ID: {level_id}")
+
+    level_id = add_level("levelId05","Nivel Experto","Perfecciona tu conocimiento para interpretar conversaciones a tiempo real y participar en presentaciones formales",
                          "Experto",20,"0 horas","🎓","")
     print(f"Nivel creado con ID: {level_id}")
 
@@ -259,7 +264,7 @@ def predict():
             "categoryId": category_ID
         }, merge=True)
     
-    if probability < 0.80 or sign_progress_probability >= 80:#PASAR LUEGO A BASE DE DATOS PARA NO CODIGO DURO
+    if probability < 80 or sign_progress_probability >= probability:#PASAR LUEGO A BASE DE DATOS PARA NO CODIGO DURO
         return jsonify(result)
 
     
@@ -268,7 +273,6 @@ def predict():
     1 for doc in signProgress_query.stream()
     if "progress" in doc.to_dict() and doc.to_dict()["progress"] >= 80)
 
-    
     category_doc = db.collection('categories').document(category_ID).get()
     level_ID = category_doc.to_dict().get("levelId")
 
@@ -276,16 +280,17 @@ def predict():
     db.collection("categoryProgress")
     .where("levelId", "==", level_ID)
     .where("uid", "==", UID_TEMP)
-    ).stream()
+    )
 
-    category_progress_doc = next((doc for doc in category_progress_query.stream()if doc.get("categoryId") == category_ID), None)
+    category_progress_doc = next((doc for doc in category_progress_query.stream() if doc.get("categoryId") == category_ID), None)
     #category_progress_doc = next(category_progress_query, None)
+
 
     if category_progress_doc:
         doc_ref = db.collection("categoryProgress").document(category_progress_doc.id)
     else:
         doc_ref = db.collection("categoryProgress").document()
-    
+
 
     doc_ref.set({
     "categoryId": category_ID,
@@ -295,12 +300,14 @@ def predict():
     }, merge=True)
 
     # LEVEL PROGRESS
-
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n")
+    
     total_progress = 0
-    for doc in category_progress_query:
+    for doc in category_progress_query.stream():
         data = doc.to_dict()
         progress = data.get("progress", 0)
         total_progress += progress
+    
 
     level_progress_ref = (
         db.collection("levelProgress")
@@ -309,15 +316,18 @@ def predict():
         .limit(1)
     ).get()
 
+    level_total_signs = db.collection('levels').document(level_ID).get().to_dict().get("lessons")
+
     if level_progress_ref:
         # Document exists; update it
         doc_snapshot = level_progress_ref[0]
         existing_data = doc_snapshot.to_dict()
         doc_id = doc_snapshot.id
+        relative_progress = (total_progress * 100) / level_total_signs
 
         # Preserve 'available' value if it exists
         updated_data = {
-            "progress": total_progress,
+            "progress": relative_progress,
             "levelId": level_ID,
             "uid": UID_TEMP,
             "available": existing_data.get("available", False)
@@ -332,8 +342,6 @@ def predict():
             "uid": UID_TEMP,
             "available": True  # default if none exists
         })
-
-    
 
     return jsonify(result)
 
@@ -376,6 +384,8 @@ def get_signs():
 def get_categories():
     uid = request.args.get('uid')
     level_id = request.args.get('levelId')
+    #uid = "0NSMMq6jFrT1HooF1705oDvttzT2"
+    #level_id = "levelId01"
 
     categoryProgress_query = (
         db.collection("categoryProgress")
@@ -386,7 +396,7 @@ def get_categories():
         db.collection("categories")
         .where("levelId", "==", level_id)
     ).stream()
-    
+
     progress_map = {}
     for doc in categoryProgress_query:
         data = doc.to_dict()
@@ -402,11 +412,18 @@ def get_categories():
         category_data["progress"] = progress_map.get(category_id, 0)
         merged_results.append({**category_data, "id": category_id})
 
-    return jsonify(merged_results)
+    can_do_test = True
+    for category in merged_results:
+        if category.get("progress") < category.get("signCount"):
+            can_do_test = False
+    
+    result = {"categories": merged_results,"canDoTest":can_do_test}
+    return jsonify(result)
 
 @app.route('/get-levels', methods=['GET'])
 def get_levels():
-    uid = "p305DPCAvFOxLtUVo86JErnpbD33"#request.args.get('uid')
+    uid = request.args.get('uid')
+    #uid = "p305DPCAvFOxLtUVo86JErnpbD33"
     
     levelProgress_query = (
         db.collection("levelProgress")
@@ -441,9 +458,40 @@ def get_levels():
             "available": available
         })
 
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
-    print(merged_results)
     return jsonify(merged_results)
+
+
+@app.route('/get-exam-signs', methods=['GET'])
+def get_exam_signs():
+    #level_id = "levelId01"
+    level_id = request.args.get('levelId')
+    max_signs = 3
+
+    category_query = (
+        db.collection("categories")
+        .where("levelId", "==", level_id)
+    ).stream()
+
+    category_ids = [category_doc.id for category_doc in category_query]
+    merged_results = []
+
+    for category_id in category_ids:
+        signs_query = (
+            db.collection("signs")
+            .where("categoryId", "==", category_id)
+        ).stream()
+
+        signs = [sign_doc.to_dict() for sign_doc in signs_query]
+
+        random.shuffle(signs)
+        selected_signs = signs[:max_signs] if max_signs < len(signs) else signs
+        merged_results.extend(selected_signs)
+
+    #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    #print(merged_results)
+
+    return jsonify(merged_results)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
@@ -457,3 +505,28 @@ if __name__ == '__main__':
 
     #create_all_levels()
     #get_levels()
+    #get_exam_signs()
+
+#max_signs = 3
+
+#[
+#    {'videoRef': 'YKgCa1dwItA', 'label': 'a', 'categoryId': 'categoryId01', 'name': 'Letra A'}, 
+#    {'videoRef': 'nl5ghpTg5ec', 'label': 'b', 'categoryId': 'categoryId01', 'name': 'Letra B'}, 
+#    {'videoRef': 'H-anKSubm-w', 'label': 'c', 'categoryId': 'categoryId01', 'name': 'Letra C'}, 
+#    {'videoRef': 'r_Gs_Jbdl9E', 'label': 'd', 'categoryId': 'categoryId01', 'name': 'Letra D'}, 
+#    {'videoRef': 'youtube.com', 'label': 'e', 'categoryId': 'categoryId01', 'name': 'Letra E'}, 
+#    {'videoRef': 'youtube.com', 'label': 'f', 'categoryId': 'categoryId01', 'name': 'Letra F'}, 
+#    {'videoRef': 'KmUUdxL4W7U', 'label': 'verde', 'categoryId': 'categoryId02', 'name': 'Verde'}, 
+#    {'videoRef': 'PUx8iIfwvDU', 'label': 'rojo', 'categoryId': 'categoryId02', 'name': 'Rojo'}, 
+#    {'videoRef': 'y1_EkCMMlhM', 'label': 'amarillo', 'categoryId': 'categoryId02', 'name': 'Amarillo'}, 
+#    {'videoRef': '1s4aYoAodlc', 'label': 'blanco', 'categoryId': 'categoryId02', 'name': 'Blanco'}, 
+#    {'videoRef': '60TK3s9V0nY', 'label': 'negro', 'categoryId': 'categoryId02', 'name': 'Negro'}, 
+#    {'videoRef': 'VC0csxuR34Q', 'label': 'azul', 'categoryId': 'categoryId02', 'name': 'Azul'}]
+
+#[
+#    {'videoRef': 'youtube.com', 'label': 'f', 'categoryId': 'categoryId01', 'name': 'Letra F'},
+#    {'videoRef': 'r_Gs_Jbdl9E', 'label': 'd', 'categoryId': 'categoryId01', 'name': 'Letra D'}, 
+#    {'videoRef': 'nl5ghpTg5ec', 'label': 'b', 'categoryId': 'categoryId01', 'name': 'Letra B'}, 
+#    {'videoRef': '60TK3s9V0nY', 'label': 'negro', 'categoryId': 'categoryId02', 'name': 'Negro'}, 
+#    {'videoRef': '1s4aYoAodlc', 'label': 'blanco', 'categoryId': 'categoryId02', 'name': 'Blanco'}, 
+#    {'videoRef': 'PUx8iIfwvDU', 'label': 'rojo', 'categoryId': 'categoryId02', 'name': 'Rojo'}]
