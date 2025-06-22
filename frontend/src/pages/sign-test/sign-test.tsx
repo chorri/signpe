@@ -5,7 +5,7 @@ import { Camera, ChevronRight, Loader2, Play, Trophy } from 'lucide-react'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { useCamera, useGetTestSigns, useLocationState } from 'hooks'
+import { useAuth, useCamera, useGetTestSigns, useLocationState, useTestPredictSign } from 'hooks'
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Progress } from 'components'
 import { ROUTES } from 'lib/constants'
 import { getProgress } from 'lib/utils'
@@ -20,6 +20,12 @@ export const SignTest = () => {
 
   const locationState = useLocationState()
 
+  const { user, loading } = useAuth()
+
+  const uid = user?.uid
+
+  const testPredictMutation = useTestPredictSign()
+
   const [currentQuestion, setCurrentQuestion] = useState(0)
 
   const [answers, setAnswers] = useState<SignTestAnswer[]>([])
@@ -30,7 +36,11 @@ export const SignTest = () => {
 
   const testSignsData = testSignsQuery.data || []
 
-  console.log('Test Signs Data:', testSignsData)
+  const testPredictedData = testPredictMutation.data
+
+  console.log('answers', answers)
+
+  console.log('testPredictedData', testPredictedData)
 
   const handleNextQuestion = (
     frames: SignTestAnswer['frames'],
@@ -44,7 +54,16 @@ export const SignTest = () => {
       return
     }
 
-    setTestCompleted(true)
+    const testPredictRequest = {
+      answers: [...answers, { frames, signId }],
+      uid,
+    }
+
+    testPredictMutation.mutate(testPredictRequest, {
+      onSuccess: () => {
+        setTestCompleted(true)
+      },
+    })
   }
 
   const { videoRef, isRecording, countdown, stream, cameraPermission, startCountdown } = useCamera(
@@ -80,7 +99,7 @@ export const SignTest = () => {
     goBack()
   }
 
-  if (testSignsQuery.isPending) {
+  if (loading || testSignsQuery.isPending) {
     return null
   }
 
@@ -276,12 +295,12 @@ export const SignTest = () => {
                 </div>
               )}
 
-              {/* {isLoading && (
+              {testPredictMutation.isPending && (
                 <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center">
                   <Loader2 className="h-12 w-12 text-violet-400 animate-spin mb-4" />
                   <p className="text-white text-lg">Calificando tu examen...</p>
                 </div>
-              )} */}
+              )}
             </div>
           </CardContent>
         </Card>
