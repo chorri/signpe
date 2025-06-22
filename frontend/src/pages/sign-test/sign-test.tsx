@@ -10,6 +10,11 @@ import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Progress } fro
 import { ROUTES } from 'lib/constants'
 import { getProgress } from 'lib/utils'
 
+type SignTestAnswer = {
+  frames: string[]
+  signId: string
+}
+
 export const SignTest = () => {
   const navigate = useNavigate()
 
@@ -17,7 +22,7 @@ export const SignTest = () => {
 
   const [currentQuestion, setCurrentQuestion] = useState(0)
 
-  const [answers, setAnswers] = useState<number[]>([])
+  const [answers, setAnswers] = useState<SignTestAnswer[]>([])
 
   const [testCompleted, setTestCompleted] = useState(false)
 
@@ -27,8 +32,11 @@ export const SignTest = () => {
 
   console.log('Test Signs Data:', testSignsData)
 
-  const handleNextQuestion = (score: number) => {
-    setAnswers([...answers, score])
+  const handleNextQuestion = (
+    frames: SignTestAnswer['frames'],
+    signId: SignTestAnswer['signId']
+  ) => {
+    setAnswers(prevAnswers => [...prevAnswers, { frames, signId }])
 
     if (currentQuestion < testSignsData.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
@@ -40,8 +48,8 @@ export const SignTest = () => {
   }
 
   const { videoRef, isRecording, countdown, stream, cameraPermission, startCountdown } = useCamera(
-    () => {
-      handleNextQuestion(Math.floor(Math.random() * 100))
+    frames => {
+      handleNextQuestion(frames, testSignsData[currentQuestion].id)
     }
   )
 
@@ -54,7 +62,8 @@ export const SignTest = () => {
       return 0
     }
 
-    return Math.round(answers.reduce((sum, score) => sum + score, 0) / answers.length)
+    // return Math.round(answers.reduce((sum, score) => sum + score, 0) / answers.length)
+    return 70
   }
 
   const overallScore = getOverallScore()
@@ -123,7 +132,7 @@ export const SignTest = () => {
                       <p className="text-white font-medium mb-1">{question.question}</p>
                     </div>
                     <div className="flex items-center gap-3 ml-4">
-                      <div className="text-right">
+                      {/* <div className="text-right">
                         <div
                           className={`text-xl font-bold ${getProgress(answers[index]).textColor}`}
                         >
@@ -136,7 +145,7 @@ export const SignTest = () => {
                       <DynamicIcon
                         name={getProgress(answers[index]).icon as IconName}
                         className={`h-5 w-5 ${getProgress(answers[index]).textColor}`}
-                      />
+                      /> */}
                     </div>
                   </div>
                 ))}
