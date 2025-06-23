@@ -7,5 +7,6 @@ export const useGetTestSigns = (levelId: CategoryInterface['levelId']) => {
     queryKey: ['signs', 'test', levelId],
     queryFn: () => getTestSigns(levelId),
     enabled: !!levelId,
+    refetchOnWindowFocus: false,
   })
 }
