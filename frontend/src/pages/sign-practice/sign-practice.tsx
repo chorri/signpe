@@ -176,7 +176,7 @@ export const SignPractice = () => {
 
                 {/* Loading Overlay */}
                 {predictMutation.isPending && (
-                  <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center">
+                  <div className="absolute inset-0 bg-black flex flex-col items-center justify-center">
                     <Loader2 className="h-12 w-12 text-violet-400 animate-spin mb-4" />
                     <p className="text-white text-lg">Analizando tu seña...</p>
                   </div>

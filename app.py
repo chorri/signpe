@@ -386,12 +386,18 @@ def predict():
     return jsonify(result)
 
 
-@app.route('/predict-test', methods=['POST'])
-def predict_test():
+@app.route('/test-predict', methods=['POST'])
+def test_predict():
 
     test_result = []
 
-    for data_element in request.get_json():
+    data_package = request.get_json()
+    UID_TEMP = data_package["uid"]
+    print("\n\n\n")
+    print(UID_TEMP)
+    print("\n\n")
+
+    for data_element in data_package["answers"]:
         data = data_element
         images = data.get('frames')
 
@@ -400,7 +406,6 @@ def predict_test():
 
         sequence = []
 
-        UID_TEMP = data.get('uid')
         sign_ID = data.get('signId')
         sign_doc = db.collection('signs').document(sign_ID).get()
         current_sign_label = sign_doc.to_dict().get("label") # verde
@@ -457,18 +462,19 @@ def predict_test():
         probability = float(round(prediction[target_index] * 100, 2))
     
         result = {
-            "probability": probability,
-            "signID": sign_ID
+            "probability": float(round(probability, 0)),
+            "signId": sign_ID
         }
         test_result.append(result)
 
-    cumulative_score
+    cumulative_score = 0
     for question in test_result:
         cumulative_score += question["probability"]
     
-    overall_score = cumulative_score/len(test_result)
+    overall_score = float(round(cumulative_score/len(test_result), 0))
+    
     final_result = {
-        "answers" : test_result,
+        "results" : test_result,
         "overallScore" : overall_score
     }
 
@@ -595,7 +601,7 @@ def get_levels():
 def get_test_signs():
     #level_id = "levelId01"
     level_id = request.args.get('levelId')
-    max_signs = 2
+    max_signs = 1
 
     category_query = (
         db.collection("categories")

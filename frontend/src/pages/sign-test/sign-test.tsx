@@ -243,7 +243,7 @@ export const SignTest = () => {
                 <Camera className="h-6 w-6  text-rose-400" />
                 Graba tu respuesta
               </CardTitle>
-              {!isRecording && !countdown && cameraPermission && testPredictMutation.isPending && (
+              {!isRecording && !countdown && cameraPermission && !testPredictMutation.isPending && (
                 <Button
                   onClick={() => {
                     startCountdown()
@@ -294,7 +294,7 @@ export const SignTest = () => {
               )}
 
               {testPredictMutation.isPending && (
-                <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center">
+                <div className="absolute inset-0 bg-black flex flex-col items-center justify-center">
                   <Loader2 className="h-12 w-12 text-violet-400 animate-spin mb-4" />
                   <p className="text-white text-lg">Calificando tu examen...</p>
                 </div>
