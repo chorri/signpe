@@ -38,10 +38,6 @@ export const SignTest = () => {
 
   const testPredictedData = testPredictMutation.data
 
-  console.log('answers', answers)
-
-  console.log('testPredictedData', testPredictedData)
-
   const handleNextQuestion = (
     frames: SignTestAnswer['frames'],
     signId: SignTestAnswer['signId']
@@ -76,16 +72,18 @@ export const SignTest = () => {
     navigate(-1)
   }
 
-  const getOverallScore = () => {
-    if (answers.length === 0) {
-      return 0
+  const overallScore = testPredictedData?.overallScore || null
+
+  const resultsData = testPredictedData?.results || []
+
+  const mergedData = testSignsData.map(sign => {
+    const result = resultsData.find(result => result.signId === sign.id)
+
+    return {
+      ...sign,
+      ...result,
     }
-
-    // return Math.round(answers.reduce((sum, score) => sum + score, 0) / answers.length)
-    return 70
-  }
-
-  const overallScore = getOverallScore()
+  })
 
   const { textColor, approval, label } = getProgress(overallScore)
 
@@ -133,9 +131,9 @@ export const SignTest = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {testSignsData.map((question, index) => (
+                {mergedData.map((result, index) => (
                   <div
-                    key={question.id}
+                    key={result.id}
                     className="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
                   >
                     <div className="flex-1">
@@ -145,26 +143,26 @@ export const SignTest = () => {
                           variant="outline"
                           className="min-w-max bg-rose-900/30 text-rose-400 border-rose-700"
                         >
-                          {question.categoryName}
+                          {result.categoryName}
                         </Badge>
                       </div>
-                      <p className="text-white font-medium mb-1">{question.question}</p>
+                      <p className="text-white font-medium mb-1">{result.question}</p>
                     </div>
                     <div className="flex items-center gap-3 ml-4">
-                      {/* <div className="text-right">
+                      <div className="text-right">
                         <div
-                          className={`text-xl font-bold ${getProgress(answers[index]).textColor}`}
+                          className={`text-xl font-bold ${getProgress(result.probability).textColor}`}
                         >
-                          {answers[index]}%
+                          {result.probability}%
                         </div>
-                        <div className={`text-sm ${getProgress(answers[index]).textColor}`}>
-                          {getProgress(answers[index]).rating}
+                        <div className={`text-sm ${getProgress(result.probability).textColor}`}>
+                          {getProgress(result.probability).rating}
                         </div>
                       </div>
                       <DynamicIcon
-                        name={getProgress(answers[index]).icon as IconName}
-                        className={`h-5 w-5 ${getProgress(answers[index]).textColor}`}
-                      /> */}
+                        name={getProgress(result.probability).icon as IconName}
+                        className={`h-5 w-5 ${getProgress(result.probability).textColor}`}
+                      />
                     </div>
                   </div>
                 ))}
@@ -245,7 +243,7 @@ export const SignTest = () => {
                 <Camera className="h-6 w-6  text-rose-400" />
                 Graba tu respuesta
               </CardTitle>
-              {!isRecording && !countdown && cameraPermission && (
+              {!isRecording && !countdown && cameraPermission && testPredictMutation.isPending && (
                 <Button
                   onClick={() => {
                     startCountdown()
