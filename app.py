@@ -472,14 +472,61 @@ def test_predict():
         cumulative_score += question["probability"]
     
     overall_score = float(round(cumulative_score/len(test_result), 0))
-    
+
     final_result = {
         "results" : test_result,
         "overallScore" : overall_score
     }
+    
+    if overall_score < 80:
+        return jsonify(final_result)
+    
+    sign_ref = db.collection('signs').document(sign_ID)
+    sign_doc = sign_ref.get()
+    sign_data = sign_doc.to_dict()
+    category_id = sign_data.get('categoryId')
 
+    category_ref = db.collection('categories').document(category_id)
+    category_doc = category_ref.get()
+    category_data = category_doc.to_dict()
+    level_id = category_data.get('levelId')
+
+    level_ref = db.collection('levels').document(level_id)
+    level_doc = level_ref.get()
+    level_data = level_doc.to_dict()
+
+    level_progress_ref = (
+        db.collection("levelProgress")
+        .where("levelId", "==", level_data.get('nextLevel'))
+        .where("uid", "==", UID_TEMP)
+        .limit(1)
+    ).get()
+
+    if level_progress_ref:
+        return jsonify(final_result)
+    else:
+        level_progress_data = {
+        "available" : True,
+        "levelId" : level_data.get('nextLevel'),
+        "progress" : 0,
+        "uid" : UID_TEMP
+        }
+        db.collection("levelProgress").add(level_progress_data)
+    
+    
     return jsonify(final_result)
 
+@app.route('/setup-user', methods=['POST'])
+def setup_user():
+    data = request.get_json()
+    uid = data.get("uid")
+    username = data.get("username")
+    #create users
+
+    #create category progress for basic
+    print("\n\n\n")
+    print(uid,username)
+    print("\n\n\n")
 
 @app.route('/get-signs', methods=['GET'])
 def get_signs():
@@ -601,7 +648,7 @@ def get_levels():
 def get_test_signs():
     #level_id = "levelId01"
     level_id = request.args.get('levelId')
-    max_signs = 1
+    max_signs = 3
 
     category_query = (
         db.collection("categories")
@@ -636,7 +683,6 @@ def get_test_signs():
 
     #print(merged_results)
     return jsonify(merged_results)
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
