@@ -1,3 +1,5 @@
+import { API_ROOT } from 'lib/constants'
+
 interface Predict {
   frames: string[]
   signId: string
@@ -23,7 +25,7 @@ export interface PredictTestResponse {
 }
 
 export async function setPredict(predictRequest: PredictRequest): Promise<PredictResponse> {
-  const response = await fetch('/predict', {
+  const response = await fetch(`${API_ROOT}predict`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(predictRequest),
@@ -39,7 +41,7 @@ export async function setPredict(predictRequest: PredictRequest): Promise<Predic
 export async function setTestPredict(
   predictRequest: PredictTestRequest
 ): Promise<PredictTestResponse> {
-  const response = await fetch('/test-predict', {
+  const response = await fetch(`${API_ROOT}test-predict`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(predictRequest),
