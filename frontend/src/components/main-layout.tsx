@@ -76,7 +76,6 @@ export const MainLayout = () => {
             <DropdownMenuTrigger asChild>
               <Button type="button" variant="ghost" className="relative h-10 w-10 rounded-full">
                 <Avatar className="h-10 w-10">
-                  <AvatarImage src="/placeholder.svg?height=40&width=40" alt={formattedUsername} />
                   <AvatarFallback className="bg-violet-600 text-white">{avatarName}</AvatarFallback>
                 </Avatar>
               </Button>
