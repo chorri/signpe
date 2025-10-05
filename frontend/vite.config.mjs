@@ -8,7 +8,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [react(), tailwindcss(), tsconfigPaths()],
   build: {
-    outDir: path.resolve(__dirname, '../static/dist'),
+    outDir: 'dist',
     emptyOutDir: true,
   },
   base: '/',
