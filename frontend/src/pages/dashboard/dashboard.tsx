@@ -28,7 +28,7 @@ export const Dashboard = () => {
 
     if (level && level.available) {
       navigate(`/${level.href}`, {
-        state: { levelId: id, difficulty: level.difficulty },
+        state: { levelId: id, difficulty: level.difficulty, progress: level.progress },
       })
     }
   }
@@ -156,7 +156,7 @@ export const Dashboard = () => {
                         className="w-full mt-4 bg-violet-600 hover:bg-violet-700"
                         onClick={() => navigateTo(level.id)}
                       >
-                        Empieza a Aprender
+                        {level.progress >= 0 ? 'Continua tu Aprendizaje' : 'Empieza  a Aprender'}
                       </Button>
                     </div>
                   ) : (

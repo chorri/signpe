@@ -82,8 +82,9 @@ export const Levels = () => {
             Nivel {locationState.difficulty} del Lenguaje de Señas Peruano (LSP)
           </h1>
           <p className="text-gray-300 max-w-3xl">
-            Empieza tu aventura en el lenguaje de señas peruano. Haz click en cualquier categoría
-            para explorar las señas y comenzar a aprender.
+            {locationState.progress >= 0 ? 'Continua' : 'Empieza'} tu aventura en el lenguaje de
+            señas peruano. Haz click en cualquier categoría para explorar las señas y comenzar a
+            aprender.
           </p>
         </div>
 

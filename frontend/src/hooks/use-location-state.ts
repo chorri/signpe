@@ -6,6 +6,7 @@ import { ROUTES } from 'lib/constants'
 type LocationState = {
   levelId: string
   difficulty: string
+  progress: number
 }
 
 export const useLocationState = () => {

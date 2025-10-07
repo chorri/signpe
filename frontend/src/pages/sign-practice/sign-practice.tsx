@@ -103,7 +103,7 @@ export const SignPractice = () => {
                 <iframe
                   width="100%"
                   height="100%"
-                  src={`https://www.youtube.com/embed/${signData.videoRef}`}
+                  src={`https://www.youtube.com/embed/${signData.videoRef}?controls=0&rel=0&modestbranding=1&showinfo=0&fs=0`}
                   title="ASL Sign Reference"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
