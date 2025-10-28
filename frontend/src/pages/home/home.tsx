@@ -52,12 +52,14 @@ export const Home = () => {
           >
             Testimonios
           </a>
+          {/*
           <a
             className="font-semibold text-gray-300 hover:text-violet-400 transition-colors"
             href="#pricing"
           >
             Planes
           </a>
+          */}
           <a
             className="font-semibold text-gray-300 hover:text-violet-400 transition-colors"
             href="#contact"
@@ -311,7 +313,8 @@ export const Home = () => {
           </div>
         </section>
 
-        {/* Pricing Section */}
+        {/* Pricing Section
+
         <section
           id="pricing"
           className="flex justify-center w-full py-12 md:py-24 lg:py-32 bg-gray-900"
@@ -329,7 +332,8 @@ export const Home = () => {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-4 lg:gap-8">
-              {/* Free Plan */}
+              {/* Free Plan */
+        /*}
               <Card className="relative bg-gray-800 border-violet-700">
                 <CardHeader>
                   <CardTitle className="text-white">Básico</CardTitle>
@@ -365,7 +369,8 @@ export const Home = () => {
                 </CardFooter>
               </Card>
 
-              {/* Basic Plan */}
+              {/* Basic Plan */
+        /*}
               <Card className="relative opacity-60 bg-gray-800 border-gray-700">
                 <CardHeader>
                   <CardTitle className="text-white">Intermedio</CardTitle>
@@ -403,7 +408,8 @@ export const Home = () => {
                 </CardFooter>
               </Card>
 
-              {/* Pro Plan */}
+              {/* Pro Plan */
+        /*}
               <Card className="relative opacity-60 bg-gray-800 border-gray-700">
                 <CardHeader>
                   <CardTitle className="text-white">Avanzado</CardTitle>
@@ -441,7 +447,8 @@ export const Home = () => {
                 </CardFooter>
               </Card>
 
-              {/* Enterprise Plan */}
+              {/* Enterprise Plan */
+        /*}
               <Card className="relative opacity-60 bg-gray-800 border-gray-700">
                 <CardHeader>
                   <CardTitle className="text-white">Experto</CardTitle>
@@ -481,6 +488,9 @@ export const Home = () => {
             </div>
           </div>
         </section>
+
+
+        */}
 
         {/* Final CTA Section */}
         <section className="flex justify-center w-full py-12 md:py-24 lg:py-32 bg-gradient-to-br from-gray-900 via-violet-900/40 to-rose-900/40">
@@ -561,11 +571,12 @@ export const Home = () => {
                     Características
                   </Link>
                 </li>
-                <li>
+                {/*<li>
                   <Link to="#" className="text-gray-400 hover:text-violet-400">
                     Planes
                   </Link>
                 </li>
+                */}
               </ul>
             </div>
             <div className="space-y-4">
