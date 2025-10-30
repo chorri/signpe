@@ -44,7 +44,7 @@ export const Dashboard = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Tu camino de aprendizaje</h1>
           <p className="text-gray-300">
-            Avanza a través de nuestros niveles estructurados para dominar el Lenguaje de Señas
+            Avanza a través de nuestros niveles estructurados para dominar la Lengua de Señas
             Peruano (LSP)
           </p>
         </div>
